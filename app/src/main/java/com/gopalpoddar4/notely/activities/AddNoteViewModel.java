@@ -25,8 +25,23 @@ public class AddNoteViewModel extends AndroidViewModel {
     public void insert(NoteEntity noteEntity){
         new InsertAsyncTask(noteDao).execute(noteEntity);
     }
+    public void delete(NoteEntity noteEntity){
+        new DeleteAsuncTask(noteDao).execute(noteEntity);
+    }
     LiveData<List<NoteEntity>> getAllNotes(){
         return allNotes;
+    }
+    private class DeleteAsuncTask extends AsyncTask<NoteEntity,Void,Void>{
+        NoteDao mNoteDao;
+
+        public DeleteAsuncTask(NoteDao mNoteDao) {
+            this.mNoteDao = mNoteDao;
+        }
+        @Override
+        protected Void doInBackground(NoteEntity... noteEntities) {
+            noteDao.deleteNote(noteEntities[0]);
+            return null;
+        }
     }
     private class InsertAsyncTask extends AsyncTask<NoteEntity,Void,Void>{
         NoteDao mNoteDao;

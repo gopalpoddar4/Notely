@@ -37,6 +37,11 @@ public class EditNoteActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_edit_note);
 
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        );
+
+
         back=findViewById(R.id.backBtnEdit);
         save=findViewById(R.id.saveEditedNoteBtn);
         etTitle1=findViewById(R.id.editNoteTitle);

@@ -40,6 +40,7 @@ dependencies {
         // Room components
         implementation ("androidx.room:room-runtime:2.2.5")
         annotationProcessor ("androidx.room:room-compiler:2.2.5")
+    implementation("com.airbnb.android:lottie:6.6.2")
 
     implementation(libs.appcompat)
     implementation(libs.material)

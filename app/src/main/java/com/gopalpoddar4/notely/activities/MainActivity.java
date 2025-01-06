@@ -33,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        );
+
         addNoteViewModel=new ViewModelProvider(this).get(AddNoteViewModel.class);
         AddNoteBtn=findViewById(R.id.addNoteButton);
         recyclerView=findViewById(R.id.recycleView);

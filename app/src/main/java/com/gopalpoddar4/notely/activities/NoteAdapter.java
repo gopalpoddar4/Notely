@@ -1,7 +1,9 @@
 package com.gopalpoddar4.notely.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +38,7 @@ public class NoteAdapter extends RecyclerView.Adapter<myVH> {
         holder.linearLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-
+                deleteNoteFunction();
                 return true;
             }
         });
@@ -56,5 +58,29 @@ public class NoteAdapter extends RecyclerView.Adapter<myVH> {
     @Override
     public int getItemCount() {
         return notes.size();
+    }
+    public void deleteNoteFunction(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Delete note");
+        builder.setMessage("Are you sure you want to delete");
+        builder.setIcon(R.drawable.delete);
+
+
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
