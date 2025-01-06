@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         addNoteViewModel.getAllNotes().observe(this, new Observer<List<NoteEntity>>() {
             @Override
             public void onChanged(List<NoteEntity> noteEntities) {
-               noteAdapter= new NoteAdapter(noteEntities,MainActivity.this);
+               noteAdapter= new NoteAdapter(noteEntities,MainActivity.this,addNoteViewModel);
                 recyclerView.setAdapter(noteAdapter);
             }
         });
