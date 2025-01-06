@@ -2,6 +2,7 @@ package com.gopalpoddar4.notely.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -66,14 +67,6 @@ public class MainActivity extends AppCompatActivity {
             addNoteViewModel.insert(noteEntity);
             Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
         }
-        if (requestCode==REQUEST_CODE_UPDATE_NOTE && resultCode==RESULT_OK){
-            NoteEntity note = new NoteEntity();
-            note.setDateTime(data.getStringExtra("update_time"));
-            note.setNoteDescription(data.getStringExtra("update_desc"));
-            note.setTitle(data.getStringExtra("update_title"));
-            addNoteViewModel.update(note);
-            Toast.makeText(this, "Note Update", Toast.LENGTH_SHORT).show();
-        }
-    }
 
+    }
 }

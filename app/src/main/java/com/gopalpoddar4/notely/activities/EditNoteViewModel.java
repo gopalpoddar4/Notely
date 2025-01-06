@@ -23,5 +23,18 @@ public class EditNoteViewModel extends AndroidViewModel {
     public LiveData<NoteEntity> getNote(int noteId){
         return noteDao.getNote(noteId);
     }
-
+    public void update(NoteEntity noteEntity){
+        new UpdateAsyncTask(noteDao).execute(noteEntity);
+    }
+    private class UpdateAsyncTask extends AsyncTask<NoteEntity,Void,Void> {
+        NoteDao mNoteDao;
+        public UpdateAsyncTask(NoteDao mNoteDao) {
+            this.mNoteDao = mNoteDao;
+        }
+        @Override
+        protected Void doInBackground(NoteEntity... noteEntities) {
+            noteDao.updateNote(noteEntities[0]);
+            return null;
+        }
+    }
 }

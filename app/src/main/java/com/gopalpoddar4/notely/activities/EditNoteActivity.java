@@ -3,6 +3,7 @@ package com.gopalpoddar4.notely.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -46,7 +47,6 @@ public class EditNoteActivity extends AppCompatActivity {
         String desc = getIntent().getStringExtra("desc");
         int id = getIntent().getIntExtra("note_id",0);
 
-
         editNoteViewModel= new ViewModelProvider(this).get(EditNoteViewModel.class);
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE, dd MMMM yyyy, hh:mm a", Locale.getDefault());
@@ -60,7 +60,6 @@ public class EditNoteActivity extends AppCompatActivity {
                          dateTime1.setText(currentDateAndTime);
                      }
                  });
-
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,22 +70,14 @@ public class EditNoteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (TextUtils.isEmpty(etTitle1.getText())){
-                    Toast.makeText(EditNoteActivity.this, "Title can't be empty", Toast.LENGTH_SHORT).show();
-                    return;
-                } else if (TextUtils.isEmpty(etDescription1.getText())) {
-                    Toast.makeText(EditNoteActivity.this, "Note can't be empty", Toast.LENGTH_SHORT).show();
-                    return;
-                }else {
-
-                    Intent intent=new Intent();
-                    intent.putExtra("note_id",id);
-                    intent.putExtra("update_title",etTitle1.getText().toString());
-                    intent.putExtra("update_desc",etDescription1.getText().toString());
-                    intent.putExtra("update_time",dateTime1.getText().toString());
-                    setResult(RESULT_OK,intent);
-                    finish();
-                }
+                NoteEntity note=new NoteEntity();
+                note.setId(id);
+                note.setTitle(etTitle1.getText().toString());
+                note.setNoteDescription(etDescription1.getText().toString());
+                note.setDateTime(currentDateAndTime);
+                editNoteViewModel.update(note);
+                Toast.makeText(EditNoteActivity.this, "Note Updated", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }

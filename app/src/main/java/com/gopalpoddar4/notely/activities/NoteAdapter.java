@@ -14,7 +14,7 @@ import java.util.List;
 public class NoteAdapter extends RecyclerView.Adapter<myVH> {
     List<NoteEntity> notes;
     Context context;
-
+    public static final int REQUEST_CODE_UPDATE_NOTE=2;
     public NoteAdapter(List<NoteEntity> notes, Context context) {
         this.notes = notes;
         this.context = context;
@@ -49,7 +49,7 @@ public class NoteAdapter extends RecyclerView.Adapter<myVH> {
                 intent.putExtra("desc",temp.getNoteDescription());
 
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                ((Activity)context).startActivityForResult(intent,MainActivity.REQUEST_CODE_UPDATE_NOTE);
+                ((Activity)context).startActivityForResult(intent,REQUEST_CODE_UPDATE_NOTE);
             }
         });
     }
