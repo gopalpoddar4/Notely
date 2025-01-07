@@ -37,7 +37,7 @@
         android:text="This is a sample note "
         android:textColor="@color/white"
         android:textSize="18dp"
-        android:fontFamily="@font/ubuntu"
+        android:fontFamily="@font/ubuntu_medium"
         android:layout_marginTop="7dp"
         />
 </LinearLayout>
