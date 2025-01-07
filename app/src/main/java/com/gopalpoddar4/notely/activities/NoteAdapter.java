@@ -17,21 +17,15 @@ import com.gopalpoddar4.notely.R;
 import com.gopalpoddar4.notely.activities.DatabaseFiles.NoteEntity;
 import java.util.List;
 public class NoteAdapter extends RecyclerView.Adapter<myVH> {
-    public interface OnDeleteClickListner{
-        void OnDeleteClickListner(NoteEntity noteEntity);
-    }
     List<NoteEntity> notes;
     Context context;
     private AddNoteViewModel addNoteViewModel;
     public static final int REQUEST_CODE_UPDATE_NOTE=2;
-    private OnDeleteClickListner onDeleteClickListner;
     public NoteAdapter(List<NoteEntity> notes, Context context,AddNoteViewModel addNoteViewModel) {
         this.notes = notes;
         this.context = context;
         this.addNoteViewModel=addNoteViewModel;
-
     }
-
     @NonNull
     @Override
     public myVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -44,8 +38,10 @@ public class NoteAdapter extends RecyclerView.Adapter<myVH> {
 
         final NoteEntity temp = notes.get(position);
         holder.rcvTitle.setText(notes.get(position).getTitle());
+        holder.rcvTime.setText(notes.get(position).getDateTime());
         holder.rcvDescription.setText(notes.get(position).getNoteDescription());
-       holder.linearLayout.setOnLongClickListener(new View.OnLongClickListener() {
+
+        holder.linearLayout.setOnLongClickListener(new View.OnLongClickListener() {
            @Override
            public boolean onLongClick(View v) {
                AlertDialog.Builder builder = new AlertDialog.Builder(context);

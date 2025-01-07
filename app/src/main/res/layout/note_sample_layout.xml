@@ -8,23 +8,32 @@
     android:paddingStart="15dp"
     android:paddingVertical="15dp"
     android:paddingEnd="10dp"
+    android:layout_marginBottom="5dp"
     android:layout_marginTop="5dp"
     android:layout_marginHorizontal="5dp"
     android:background="@drawable/background_sample_note">
-        <TextView
-            android:id="@+id/rcvTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="My Note"
-            android:textSize="20dp"
-            android:textColor="@color/white"
-            android:fontFamily="@font/ubuntu_bold"
-            />
+    <TextView
+        android:id="@+id/rcvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="My Note"
+        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/ubuntu_bold"
+        />
+    <TextView
+        android:id="@+id/rcvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5 jan 2025"
+        android:textColor="@color/white"
+        android:textSize="14dp"
+        android:fontFamily="@font/ubuntu"/>
     <TextView
         android:id="@+id/rcvDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxHeight="81dp"
+        android:maxHeight="61dp"
         android:text="This is a sample note "
         android:textColor="@color/white"
         android:textSize="18dp"
