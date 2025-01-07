@@ -66,7 +66,7 @@ public class AddNoteActivity extends AppCompatActivity {
                     Intent intent = new Intent();
                     intent.putExtra("titleadd",etNoteTitle.getText().toString());
                     intent.putExtra("descadd",etNoteDescription.getText().toString());
-                    intent.putExtra("dateadd",dateTime.toString());
+                    intent.putExtra("dateadd",dateTime.getText().toString());
                     setResult(RESULT_OK,intent);
                     finish();
                 }

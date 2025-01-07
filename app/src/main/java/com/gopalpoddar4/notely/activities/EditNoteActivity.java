@@ -47,24 +47,23 @@ public class EditNoteActivity extends AppCompatActivity {
         etDescription1=findViewById(R.id.editNoteDescription);
         dateTime1=findViewById(R.id.editDateTime);
 
-        String title = getIntent().getStringExtra("title");
-        String desc = getIntent().getStringExtra("desc");
         int id = getIntent().getIntExtra("note_id",0);
-        String dateTime = getIntent().getStringExtra("time");
+
 
         editNoteViewModel= new ViewModelProvider(this).get(EditNoteViewModel.class);
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE, dd MMMM yyyy, hh:mm a", Locale.getDefault());
         String currentDateAndTime = simpleDateFormat.format(Calendar.getInstance().getTime());
-         noteEntity = editNoteViewModel.getNote(id);
-         noteEntity.observe(this, new Observer<NoteEntity>() {
-             @Override
-             public void onChanged(NoteEntity noteEntity) {
-                 etTitle1.setText(noteEntity.getTitle());
-                 etDescription1.setText(noteEntity.getNoteDescription());
-                 dateTime1.setText(noteEntity.getDateTime());
-             }
-         });
+        dateTime1.setText(currentDateAndTime);
+        noteEntity = editNoteViewModel.getNote(id);
+        noteEntity.observe(this, new Observer<NoteEntity>() {
+            @Override
+            public void onChanged(NoteEntity noteEntity) {
+                etTitle1.setText(noteEntity.getTitle());
+                etDescription1.setText(noteEntity.getNoteDescription());
+                dateTime1.setText(noteEntity.getDateTime());
+            }
+        });
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,12 +84,7 @@ public class EditNoteActivity extends AppCompatActivity {
                     note.setId(id);
                     note.setTitle(etTitle1.getText().toString());
                     note.setNoteDescription(etDescription1.getText().toString());
-                    if (etTitle1.getText().toString()!=title && etDescription1.getText().toString()!=desc){
-                        note.setDateTime(currentDateAndTime);
-                        Toast.makeText(EditNoteActivity.this, "Note Updated", Toast.LENGTH_SHORT).show();
-                    }else {
-                        note.setDateTime(dateTime);
-                    }
+                    note.setDateTime(currentDateAndTime);
                     editNoteViewModel.update(note);
 
                     finish();

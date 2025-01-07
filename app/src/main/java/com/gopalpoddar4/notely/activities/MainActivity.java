@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.gopalpoddar4.notely.R;
 import com.gopalpoddar4.notely.activities.DatabaseFiles.NoteEntity;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         addNoteViewModel=new ViewModelProvider(this).get(AddNoteViewModel.class);
         AddNoteBtn=findViewById(R.id.addNoteButton);
         recyclerView=findViewById(R.id.recycleView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
 
         addNoteViewModel.getAllNotes().observe(this, new Observer<List<NoteEntity>>() {
             @Override
