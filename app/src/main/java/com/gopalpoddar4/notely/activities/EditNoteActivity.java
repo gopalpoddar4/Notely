@@ -41,7 +41,6 @@ public class EditNoteActivity extends AppCompatActivity {
                 View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
         );
 
-
         back=findViewById(R.id.backBtnEdit);
         save=findViewById(R.id.saveEditedNoteBtn);
         etTitle1=findViewById(R.id.editNoteTitle);
@@ -51,6 +50,7 @@ public class EditNoteActivity extends AppCompatActivity {
         String title = getIntent().getStringExtra("title");
         String desc = getIntent().getStringExtra("desc");
         int id = getIntent().getIntExtra("note_id",0);
+        String dateTime = getIntent().getStringExtra("time");
 
         editNoteViewModel= new ViewModelProvider(this).get(EditNoteViewModel.class);
 
@@ -58,13 +58,13 @@ public class EditNoteActivity extends AppCompatActivity {
         String currentDateAndTime = simpleDateFormat.format(Calendar.getInstance().getTime());
          noteEntity = editNoteViewModel.getNote(id);
          noteEntity.observe(this, new Observer<NoteEntity>() {
-                     @Override
-                     public void onChanged(NoteEntity noteEntity) {
-                         etTitle1.setText(noteEntity.getTitle());
-                         etDescription1.setText(noteEntity.getNoteDescription());
-                         dateTime1.setText(currentDateAndTime);
-                     }
-                 });
+             @Override
+             public void onChanged(NoteEntity noteEntity) {
+                 etTitle1.setText(noteEntity.getTitle());
+                 etDescription1.setText(noteEntity.getNoteDescription());
+                 dateTime1.setText(noteEntity.getDateTime());
+             }
+         });
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,15 +74,27 @@ public class EditNoteActivity extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (TextUtils.isEmpty(etTitle1.getText())){
+                    Toast.makeText(EditNoteActivity.this, "Title can't be empty", Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (TextUtils.isEmpty(etDescription1.getText())) {
+                    Toast.makeText(EditNoteActivity.this, "Note can't be empty", Toast.LENGTH_SHORT).show();
+                    return;
+                }else {
+                    NoteEntity note=new NoteEntity();
+                    note.setId(id);
+                    note.setTitle(etTitle1.getText().toString());
+                    note.setNoteDescription(etDescription1.getText().toString());
+                    if (etTitle1.getText().toString()!=title && etDescription1.getText().toString()!=desc){
+                        note.setDateTime(currentDateAndTime);
+                        Toast.makeText(EditNoteActivity.this, "Note Updated", Toast.LENGTH_SHORT).show();
+                    }else {
+                        note.setDateTime(dateTime);
+                    }
+                    editNoteViewModel.update(note);
 
-                NoteEntity note=new NoteEntity();
-                note.setId(id);
-                note.setTitle(etTitle1.getText().toString());
-                note.setNoteDescription(etDescription1.getText().toString());
-                note.setDateTime(currentDateAndTime);
-                editNoteViewModel.update(note);
-                Toast.makeText(EditNoteActivity.this, "Note Updated", Toast.LENGTH_SHORT).show();
-                finish();
+                    finish();
+                }
             }
         });
     }

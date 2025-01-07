@@ -78,6 +78,7 @@ public class NoteAdapter extends RecyclerView.Adapter<myVH> {
                 intent.putExtra("note_id",temp.getId());
                 intent.putExtra("title",temp.getTitle());
                 intent.putExtra("desc",temp.getNoteDescription());
+                intent.putExtra("time",temp.getDateTime());
 
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 ((Activity)context).startActivityForResult(intent,REQUEST_CODE_UPDATE_NOTE);
