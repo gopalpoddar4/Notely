@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:text="My Note"
         android:textSize="20dp"
-        android:textColor="@color/white"
+        android:textColor="@color/colorTextColor"
         android:fontFamily="@font/ubuntu_bold"
         />
     <TextView
@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="5 jan 2025"
-        android:textColor="@color/white"
+        android:textColor="@color/colorTextColor"
         android:textSize="14dp"
         android:fontFamily="@font/ubuntu"/>
     <TextView
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:maxHeight="61dp"
         android:text="This is a sample note "
-        android:textColor="@color/white"
+        android:textColor="@color/colorTextColor"
         android:textSize="18dp"
         android:fontFamily="@font/ubuntu_medium"
         android:layout_marginTop="7dp"

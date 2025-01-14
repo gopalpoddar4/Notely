@@ -17,7 +17,7 @@
         android:layout_marginTop="30dp"
         android:fontFamily="@font/ubuntu_bold"
         android:text="@string/notely"
-        android:textColor="@color/white"
+        android:textColor="@color/colorTextColor"
         android:textSize="28dp"
         android:paddingStart="5dp"
         app:layout_constraintEnd_toEndOf="@+id/linearLayout"
