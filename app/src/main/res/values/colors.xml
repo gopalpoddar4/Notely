@@ -2,21 +2,21 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="colorPrimary">#292929</color>
-    <color name="colorPrimaryDark">#292929</color>
+    <color name="colorPrimary">#ffffff</color>
     <color name="colorAccent">#FFAD00</color>
-    <color name="colorSearchIcon">#DBDBDB</color>
-    <color name="colorTextHint">#7b7b7b</color>
-    <color name="colorQuickActionsBackground">#2F2D2E</color>
-    <color name="colorIcons">#A4A4A4</color>
-    <color name="colorTextSubtitle">#CECECE</color>
-    <color name="colorDefaultNoteColor">#333333</color>
-    <color name="colorNoteSubtitleText">#FAFAFA</color>
-    <color name="colorMiscellaneousBackground">#1F1F1F</color>
+    <color name="colorSearchIcon">#757575</color>
+    <color name="colorTextHint">#bdbdbd</color>
+    <color name="colorQuickActionsBackground">#f0f0f0</color>
+    <color name="colorIcons">#616161</color>
+    <color name="colorTextSubtitle">#757575</color>
+    <color name="colorDefaultNoteColor">#F3F3F3</color>
+    <color name="colorNoteSubtitleText">#212121</color>
+    <color name="colorMiscellaneousBackground">#e0e0e0</color>
     <color name="colorNoteColor2">#FDBE3B</color>
     <color name="colorNoteColor3">#FF4842</color>
     <color name="colorNoteColor4">#3A52FC</color>
     <color name="colorNoteColor5">#000000</color>
     <color name="colorDelete">#FF4842</color>
-    <color name="colorSearchBackground">#333333</color>
+    <color name="colorSearchBackground">#f5f5f5</color>
+    <color name="colorTextColor">#212121</color>
 </resources>
