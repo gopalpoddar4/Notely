@@ -5,18 +5,24 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 import com.gopalpoddar4.notely.R;
 import com.gopalpoddar4.notely.activities.DatabaseFiles.NoteEntity;
 import java.util.List;
-public class NoteAdapter extends RecyclerView.Adapter<myVH> {
+public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.myVH> {
     List<NoteEntity> notes;
     Context context;
     private AddNoteViewModel addNoteViewModel;
@@ -80,10 +86,39 @@ public class NoteAdapter extends RecyclerView.Adapter<myVH> {
                 ((Activity)context).startActivityForResult(intent,REQUEST_CODE_UPDATE_NOTE);
             }
         });
+
+        if (notes.get(position).getColour() != null){
+            String colorName = notes.get(position).getColour();
+            int colorInt = getDynamicColor(colorName,context);
+            holder.ll.setBackgroundColor(colorInt);
+            holder.linearLayout.setCardBackgroundColor(colorInt);
+
+        }
     }
+
+    private int getDynamicColor(String colorName,Context context) {
+        int colorId =  context.getResources().getIdentifier(colorName,"color",context.getPackageName());
+        return ContextCompat.getColor(context,colorId);
+    }
+
     @Override
     public int getItemCount() {
         return notes.size();
+    }
+    public class myVH extends RecyclerView.ViewHolder {
+
+        CardView linearLayout;
+        LinearLayout ll;
+        TextView rcvTitle,rcvDescription,rcvTime ;
+        public myVH(@NonNull View itemView) {
+            super(itemView);
+            rcvTitle=itemView.findViewById(R.id.rcvTitle);
+            rcvDescription=itemView.findViewById(R.id.rcvDescription);
+            linearLayout=itemView.findViewById(R.id.sampleLayout);
+            rcvTime=itemView.findViewById(R.id.rcvTime);
+            ll=itemView.findViewById(R.id.rcvLinear);
+        }
+
     }
 
 }

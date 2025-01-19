@@ -97,5 +97,5 @@
                 app:layout_constraintStart_toStartOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
+<include layout="@layout/layout_misleneous"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

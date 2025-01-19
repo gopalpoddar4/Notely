@@ -47,6 +47,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<NoteEntity> noteEntities) {
                noteAdapter= new NoteAdapter(noteEntities,MainActivity.this,addNoteViewModel);
+               recyclerView.setHasFixedSize(true);
+               recyclerView.setAdapter(null);
+               StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+               recyclerView.setLayoutManager(null);
+               recyclerView.setLayoutManager(staggeredGridLayoutManager);
                 recyclerView.setAdapter(noteAdapter);
             }
         });
@@ -65,10 +70,12 @@ public class MainActivity extends AppCompatActivity {
             String title = data.getStringExtra("titleadd");
             String desc = data.getStringExtra("descadd");
             String datetime = data.getStringExtra("dateadd");
+            String color = data.getStringExtra("color");
             NoteEntity noteEntity = new NoteEntity();
             noteEntity.setTitle(title);
             noteEntity.setNoteDescription(desc);
             noteEntity.setDateTime(datetime);
+            noteEntity.setColour(color);
             addNoteViewModel.insert(noteEntity);
             Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
         }

@@ -12,9 +12,9 @@
     <color name="colorDefaultNoteColor">#F3F3F3</color>
     <color name="colorNoteSubtitleText">#212121</color>
     <color name="colorMiscellaneousBackground">#e0e0e0</color>
-    <color name="colorNoteColor2">#FDBE3B</color>
-    <color name="colorNoteColor3">#FF4842</color>
-    <color name="colorNoteColor4">#3A52FC</color>
+    <color name="colorYellow">#FDBE3B</color>
+    <color name="colorRed">#FF4842</color>
+    <color name="colorBlue">#3A52FC</color>
     <color name="colorNoteColor5">#000000</color>
     <color name="colorDelete">#FF4842</color>
     <color name="colorSearchBackground">#f5f5f5</color>
