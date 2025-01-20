@@ -110,6 +110,19 @@ public class AddNoteActivity extends AppCompatActivity {
         ImageView blueColor = linearLayoutMis.findViewById(R.id.blueColor);
         ImageView redColor = linearLayoutMis.findViewById(R.id.redColor);
         ImageView defaultColor = linearLayoutMis.findViewById(R.id.defaultColor);
+        ImageView greenColor = linearLayoutMis.findViewById(R.id.greenColor);
+        ImageView pinkColor = linearLayoutMis.findViewById(R.id.pinkColor);
+        ImageView skyColor = linearLayoutMis.findViewById(R.id.skyColor);
+        ImageView slateBlueColor = linearLayoutMis.findViewById(R.id.slateBlueColor);
+        ImageView pastelYellowColor = linearLayoutMis.findViewById(R.id.pastelYellowColor);
+        ImageView SandyBrownColor = linearLayoutMis.findViewById(R.id.SandyBrownColor);
+        ImageView lavenderColor = linearLayoutMis.findViewById(R.id.lavenderColor);
+        ImageView orangeColor = linearLayoutMis.findViewById(R.id.orangeColor);
+        ImageView tealColor = linearLayoutMis.findViewById(R.id.tealColor);
+        ImageView coralPinkColor = linearLayoutMis.findViewById(R.id.coralPinkColor);
+        ImageView slateGrayColor = linearLayoutMis.findViewById(R.id.slateGrayColor);
+
+
         yellowColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,6 +131,17 @@ public class AddNoteActivity extends AppCompatActivity {
                 redColor.setImageResource(0);
                 blueColor.setImageResource(0);
                 defaultColor.setImageResource(0);
+                greenColor.setImageResource(0);
+                pinkColor.setImageResource(0);
+                skyColor.setImageResource(0);
+                slateBlueColor.setImageResource(0);
+                pastelYellowColor.setImageResource(0);
+                SandyBrownColor.setImageResource(0);
+                lavenderColor.setImageResource(0);
+                orangeColor.setImageResource(0);
+                tealColor.setImageResource(0);
+                coralPinkColor.setImageResource(0);
+                slateGrayColor.setImageResource(0);
             }
         });
         redColor.setOnClickListener(new View.OnClickListener() {
@@ -128,6 +152,17 @@ public class AddNoteActivity extends AppCompatActivity {
                 redColor.setImageResource(R.drawable.savebtn);
                 blueColor.setImageResource(0);
                 defaultColor.setImageResource(0);
+                greenColor.setImageResource(0);
+                pinkColor.setImageResource(0);
+                skyColor.setImageResource(0);
+                slateBlueColor.setImageResource(0);
+                pastelYellowColor.setImageResource(0);
+                SandyBrownColor.setImageResource(0);
+                lavenderColor.setImageResource(0);
+                orangeColor.setImageResource(0);
+                tealColor.setImageResource(0);
+                coralPinkColor.setImageResource(0);
+                slateGrayColor.setImageResource(0);
             }
         });
         blueColor.setOnClickListener(new View.OnClickListener() {
@@ -138,6 +173,17 @@ public class AddNoteActivity extends AppCompatActivity {
                 redColor.setImageResource(0);
                 blueColor.setImageResource(R.drawable.savebtn);
                 defaultColor.setImageResource(0);
+                greenColor.setImageResource(0);
+                pinkColor.setImageResource(0);
+                skyColor.setImageResource(0);
+                slateBlueColor.setImageResource(0);
+                pastelYellowColor.setImageResource(0);
+                SandyBrownColor.setImageResource(0);
+                lavenderColor.setImageResource(0);
+                orangeColor.setImageResource(0);
+                tealColor.setImageResource(0);
+                coralPinkColor.setImageResource(0);
+                slateGrayColor.setImageResource(0);
             }
         });
         defaultColor.setOnClickListener(new View.OnClickListener() {
@@ -147,7 +193,251 @@ public class AddNoteActivity extends AppCompatActivity {
                 redColor.setImageResource(0);
                 blueColor.setImageResource(0);
                 defaultColor.setImageResource(R.drawable.savebtn);
+                greenColor.setImageResource(0);
+                pinkColor.setImageResource(0);
+                skyColor.setImageResource(0);
+                slateBlueColor.setImageResource(0);
+                pastelYellowColor.setImageResource(0);
+                SandyBrownColor.setImageResource(0);
+                lavenderColor.setImageResource(0);
+                orangeColor.setImageResource(0);
+                tealColor.setImageResource(0);
+                coralPinkColor.setImageResource(0);
+                slateGrayColor.setImageResource(0);
             }
         });
+        greenColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedColor="colorGreen";
+                yellowColor.setImageResource(0);
+                redColor.setImageResource(0);
+                blueColor.setImageResource(0);
+                defaultColor.setImageResource(0);
+                greenColor.setImageResource(R.drawable.savebtn);
+                pinkColor.setImageResource(0);
+                skyColor.setImageResource(0);
+                slateBlueColor.setImageResource(0);
+                pastelYellowColor.setImageResource(0);
+                SandyBrownColor.setImageResource(0);
+                lavenderColor.setImageResource(0);
+                orangeColor.setImageResource(0);
+                tealColor.setImageResource(0);
+                coralPinkColor.setImageResource(0);
+                slateGrayColor.setImageResource(0);
+            }
+        });
+        pinkColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedColor="colorPink";
+                yellowColor.setImageResource(0);
+                redColor.setImageResource(0);
+                blueColor.setImageResource(0);
+                defaultColor.setImageResource(0);
+                greenColor.setImageResource(0);
+                pinkColor.setImageResource(R.drawable.savebtn);
+                skyColor.setImageResource(0);
+                slateBlueColor.setImageResource(0);
+                pastelYellowColor.setImageResource(0);
+                SandyBrownColor.setImageResource(0);
+                lavenderColor.setImageResource(0);
+                orangeColor.setImageResource(0);
+                tealColor.setImageResource(0);
+                coralPinkColor.setImageResource(0);
+                slateGrayColor.setImageResource(0);
+            }
+        });
+        skyColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedColor="colorPeachPuff";
+                yellowColor.setImageResource(0);
+                redColor.setImageResource(0);
+                blueColor.setImageResource(0);
+                defaultColor.setImageResource(0);
+                greenColor.setImageResource(0);
+                pinkColor.setImageResource(0);
+                skyColor.setImageResource(R.drawable.savebtn);
+                slateBlueColor.setImageResource(0);
+                pastelYellowColor.setImageResource(0);
+                SandyBrownColor.setImageResource(0);
+                lavenderColor.setImageResource(0);
+                orangeColor.setImageResource(0);
+                tealColor.setImageResource(0);
+                coralPinkColor.setImageResource(0);
+                slateGrayColor.setImageResource(0);
+            }
+        });
+        slateBlueColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedColor="colorSlateBlue";
+                yellowColor.setImageResource(0);
+                redColor.setImageResource(0);
+                blueColor.setImageResource(0);
+                defaultColor.setImageResource(0);
+                greenColor.setImageResource(0);
+                pinkColor.setImageResource(0);
+                skyColor.setImageResource(0);
+                slateBlueColor.setImageResource(R.drawable.savebtn);
+                pastelYellowColor.setImageResource(0);
+                SandyBrownColor.setImageResource(0);
+                lavenderColor.setImageResource(0);
+                orangeColor.setImageResource(0);
+                tealColor.setImageResource(0);
+                coralPinkColor.setImageResource(0);
+                slateGrayColor.setImageResource(0);
+            }
+        });
+        pastelYellowColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedColor="colorPastelYellow";
+                yellowColor.setImageResource(0);
+                redColor.setImageResource(0);
+                blueColor.setImageResource(0);
+                defaultColor.setImageResource(0);
+                greenColor.setImageResource(0);
+                pinkColor.setImageResource(0);
+                skyColor.setImageResource(0);
+                slateBlueColor.setImageResource(0);
+                pastelYellowColor.setImageResource(R.drawable.savebtn);
+                SandyBrownColor.setImageResource(0);
+                lavenderColor.setImageResource(0);
+                orangeColor.setImageResource(0);
+                tealColor.setImageResource(0);
+                coralPinkColor.setImageResource(0);
+                slateGrayColor.setImageResource(0);
+            }
+        });
+        SandyBrownColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedColor="colorSandyBrown";
+                yellowColor.setImageResource(0);
+                redColor.setImageResource(0);
+                blueColor.setImageResource(0);
+                defaultColor.setImageResource(0);
+                greenColor.setImageResource(0);
+                pinkColor.setImageResource(0);
+                skyColor.setImageResource(0);
+                slateBlueColor.setImageResource(0);
+                pastelYellowColor.setImageResource(0);
+                SandyBrownColor.setImageResource(R.drawable.savebtn);
+                lavenderColor.setImageResource(0);
+                orangeColor.setImageResource(0);
+                tealColor.setImageResource(0);
+                coralPinkColor.setImageResource(0);
+                slateGrayColor.setImageResource(0);
+            }
+        });
+        lavenderColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedColor="colorLavender";
+                yellowColor.setImageResource(0);
+                redColor.setImageResource(0);
+                blueColor.setImageResource(0);
+                defaultColor.setImageResource(0);
+                greenColor.setImageResource(0);
+                pinkColor.setImageResource(0);
+                skyColor.setImageResource(0);
+                slateBlueColor.setImageResource(0);
+                pastelYellowColor.setImageResource(0);
+                SandyBrownColor.setImageResource(0);
+                lavenderColor.setImageResource(R.drawable.savebtn);
+                orangeColor.setImageResource(0);
+                tealColor.setImageResource(0);
+                coralPinkColor.setImageResource(0);
+                slateGrayColor.setImageResource(0);
+            }
+        });
+        orangeColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedColor="colorOrange";
+                yellowColor.setImageResource(0);
+                redColor.setImageResource(0);
+                blueColor.setImageResource(0);
+                defaultColor.setImageResource(0);
+                greenColor.setImageResource(0);
+                pinkColor.setImageResource(0);
+                skyColor.setImageResource(0);
+                slateBlueColor.setImageResource(0);
+                pastelYellowColor.setImageResource(0);
+                SandyBrownColor.setImageResource(0);
+                lavenderColor.setImageResource(0);
+                orangeColor.setImageResource(R.drawable.savebtn);
+                tealColor.setImageResource(0);
+                coralPinkColor.setImageResource(0);
+                slateGrayColor.setImageResource(0);
+            }
+        });
+        tealColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedColor="colorTeal";
+                yellowColor.setImageResource(0);
+                redColor.setImageResource(0);
+                blueColor.setImageResource(0);
+                defaultColor.setImageResource(0);
+                greenColor.setImageResource(0);
+                pinkColor.setImageResource(0);
+                skyColor.setImageResource(0);
+                slateBlueColor.setImageResource(0);
+                pastelYellowColor.setImageResource(0);
+                SandyBrownColor.setImageResource(0);
+                lavenderColor.setImageResource(0);
+                orangeColor.setImageResource(0);
+                tealColor.setImageResource(R.drawable.savebtn);
+                coralPinkColor.setImageResource(0);
+                slateGrayColor.setImageResource(0);
+            }
+        });
+        coralPinkColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedColor="colorCoralPink";
+                yellowColor.setImageResource(0);
+                redColor.setImageResource(0);
+                blueColor.setImageResource(0);
+                defaultColor.setImageResource(0);
+                greenColor.setImageResource(0);
+                pinkColor.setImageResource(0);
+                skyColor.setImageResource(0);
+                slateBlueColor.setImageResource(0);
+                pastelYellowColor.setImageResource(0);
+                SandyBrownColor.setImageResource(0);
+                lavenderColor.setImageResource(0);
+                orangeColor.setImageResource(0);
+                tealColor.setImageResource(0);
+                coralPinkColor.setImageResource(R.drawable.savebtn);
+                slateGrayColor.setImageResource(0);
+            }
+        });
+        slateGrayColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedColor="colorSlateGray";
+                yellowColor.setImageResource(0);
+                redColor.setImageResource(0);
+                blueColor.setImageResource(0);
+                defaultColor.setImageResource(0);
+                greenColor.setImageResource(0);
+                pinkColor.setImageResource(0);
+                skyColor.setImageResource(0);
+                slateBlueColor.setImageResource(0);
+                pastelYellowColor.setImageResource(0);
+                SandyBrownColor.setImageResource(0);
+                lavenderColor.setImageResource(0);
+                orangeColor.setImageResource(0);
+                tealColor.setImageResource(0);
+                coralPinkColor.setImageResource(0);
+                slateGrayColor.setImageResource(R.drawable.savebtn);
+            }
+        });
+
+
     }
 }

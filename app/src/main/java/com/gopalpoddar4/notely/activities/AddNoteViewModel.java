@@ -33,7 +33,6 @@ public class AddNoteViewModel extends AndroidViewModel {
     }
     private class DeleteAsuncTask extends AsyncTask<NoteEntity,Void,Void>{
         NoteDao mNoteDao;
-
         public DeleteAsuncTask(NoteDao mNoteDao) {
             this.mNoteDao = mNoteDao;
         }

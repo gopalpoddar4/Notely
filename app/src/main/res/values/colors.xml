@@ -12,11 +12,26 @@
     <color name="colorDefaultNoteColor">#F3F3F3</color>
     <color name="colorNoteSubtitleText">#212121</color>
     <color name="colorMiscellaneousBackground">#e0e0e0</color>
-    <color name="colorYellow">#FDBE3B</color>
-    <color name="colorRed">#FF4842</color>
-    <color name="colorBlue">#3A52FC</color>
+    <color name="colorYellow">#FFC107</color>
+    <color name="colorRed">#FF5852</color>
+    <color name="colorBlue">#4682B4</color>
     <color name="colorNoteColor5">#000000</color>
     <color name="colorDelete">#FF4842</color>
     <color name="colorSearchBackground">#f5f5f5</color>
     <color name="colorTextColor">#212121</color>
+    <color name="colorGreen">#77DD77</color>
+    <color name="colorPink">#FF00FF</color>
+    <color name="colorSky">#00E4FF</color>
+    <color name="colorBeige">#F5F5DC</color>
+    <color name="colorSlateBlue">#6A5ACD</color>
+    <color name="colorPastelYellow">#FFFFE0</color>
+    <color name="colorLavender">#E6E6FA</color>
+    <color name="colorOrange">#FFA500</color>
+    <color name="colorTeal">#008080</color>
+    <color name="colorCoralPink">#FF7F50</color>
+    <color name="colorMintGreen">#98FF98</color>
+    <color name="colorSandyBrown">#F4A460</color>
+    <color name="colorPeachPuff">#FFDAB9</color>
+    <color name="colorSlateGray">#708090</color>
+
 </resources>
