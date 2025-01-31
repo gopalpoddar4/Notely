@@ -16,11 +16,13 @@ public class AddNoteViewModel extends AndroidViewModel {
     private NoteDao noteDao;
     private NoteDatabase noteDatabase;
     LiveData<List<NoteEntity>> allNotes;
+
     public AddNoteViewModel(@NonNull Application application) {
         super(application);
         noteDatabase=NoteDatabase.noteDatabase(application);
         noteDao=noteDatabase.noteDao();
         allNotes=noteDao.getallnotes();
+
     }
     public void insert(NoteEntity noteEntity){
         new InsertAsyncTask(noteDao).execute(noteEntity);
@@ -30,6 +32,9 @@ public class AddNoteViewModel extends AndroidViewModel {
     }
     LiveData<List<NoteEntity>> getAllNotes(){
         return allNotes;
+    }
+    LiveData<List<NoteEntity>> searchNote(String query){
+        return noteDao.searchNote("%" + query + "%");
     }
     private class DeleteAsuncTask extends AsyncTask<NoteEntity,Void,Void>{
         NoteDao mNoteDao;
@@ -42,6 +47,7 @@ public class AddNoteViewModel extends AndroidViewModel {
             return null;
         }
     }
+
     private class InsertAsyncTask extends AsyncTask<NoteEntity,Void,Void>{
         NoteDao mNoteDao;
         public InsertAsyncTask(NoteDao noteDao) {

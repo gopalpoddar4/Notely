@@ -26,4 +26,7 @@ public interface NoteDao {
 
     @Query("SELECT * FROM note_table WHERE id=:noteId")
     LiveData<NoteEntity> getNote(int noteId);
+
+    @Query("SELECT * FROM note_table WHERE title LIKE :query OR note_description LIKE :query ORDER BY id DESC")
+    LiveData<List<NoteEntity>> searchNote(String query);
 }

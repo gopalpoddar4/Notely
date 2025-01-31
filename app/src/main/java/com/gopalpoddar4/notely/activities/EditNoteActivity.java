@@ -59,7 +59,7 @@ public class EditNoteActivity extends AppCompatActivity {
                 Toast.makeText(EditNoteActivity.this, "This feature coming soon", Toast.LENGTH_SHORT).show();
             }
         });
-        editMislinious();
+
         int id = getIntent().getIntExtra("note_id",0);
 
         editNoteViewModel= new ViewModelProvider(this).get(EditNoteViewModel.class);
@@ -74,6 +74,11 @@ public class EditNoteActivity extends AppCompatActivity {
                 etTitle1.setText(noteEntity.getTitle());
                 etDescription1.setText(noteEntity.getNoteDescription());
                 dateTime1.setText(noteEntity.getDateTime());
+                if(noteEntity.getColour()!=null){
+                    editedColor = noteEntity.getColour();
+
+                }
+
                 if (num==0){
                     if (noteEntity.getColour()!=null){
                         String color = noteEntity.getColour();
@@ -89,6 +94,7 @@ public class EditNoteActivity extends AppCompatActivity {
                 finish();
             }
         });
+        editMislinious();
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
