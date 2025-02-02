@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="250dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/setting_bg"
+    android:orientation="vertical"
+    android:id="@+id/settingLayout"
+    android:paddingHorizontal="25dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Note Format"
+        android:layout_marginTop="35dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorTextColor"
+        android:fontFamily="@font/ubuntu_bold"/>
+
+    <LinearLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:padding="8dp">
+        <ImageView
+            android:id="@+id/gridImg"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/menu"
+            app:tint="@color/colorTextColor"/>
+        <TextView
+            android:id="@+id/gridText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Grid Format"
+            android:textColor="@color/colorTextColor"
+            android:textSize="16dp"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/ubuntu_medium"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="7dp"
+        android:padding="8dp">
+        <ImageView
+            android:id="@+id/linearImg"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/row"
+            app:tint="@color/colorTextColor"/>
+        <TextView
+            android:id="@+id/linearText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Line Format"
+            android:textColor="@color/colorTextColor"
+            android:textSize="16dp"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/ubuntu_medium"/>
+    </LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:layout_marginVertical="12dp"
+    android:background="@color/colorTextHint"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sort by"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorTextColor"
+        android:fontFamily="@font/ubuntu_bold"/>
+    <LinearLayout
+        android:id="@+id/newToOld"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="7dp"
+        android:padding="8dp">
+        <ImageView
+            android:id="@+id/NTOImg"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/row"
+            app:tint="@color/colorTextColor"/>
+        <TextView
+            android:id="@+id/NTOText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Newest First"
+            android:textColor="@color/colorTextColor"
+            android:textSize="16dp"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/ubuntu_medium"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/oldToNew"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="7dp"
+        android:padding="8dp">
+        <ImageView
+            android:id="@+id/OTNImg"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/row"
+            app:tint="@color/colorTextColor"/>
+        <TextView
+            android:id="@+id/OTNText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Oldest"
+            android:textColor="@color/colorTextColor"
+            android:textSize="16dp"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/ubuntu_medium"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginVertical="12dp"
+        android:background="@color/colorTextHint"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:padding="7dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="22dp">
+        <TextView
+            android:id="@+id/cancelSetting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:textSize="22dp"
+            android:layout_marginEnd="20dp"
+            android:textColor="@color/colorIcons"
+            android:fontFamily="@font/ubuntu_bold"/>
+        <TextView
+            android:id="@+id/doneSetting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Done"
+            android:textSize="22dp"
+            android:textColor="@color/colorAccent"
+            android:fontFamily="@font/ubuntu_bold"/>
+
+    </LinearLayout>
+
+</LinearLayout>

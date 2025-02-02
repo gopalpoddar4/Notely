@@ -28,13 +28,14 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class EditNoteActivity extends AppCompatActivity {
-    ImageView back,save,changeBgColor;
+    ImageView back,save,changeBgColor,editPin;
     EditText etTitle1,etDescription1;
     TextView dateTime1;
     private EditNoteViewModel editNoteViewModel;
     private LiveData<NoteEntity> noteEntity;
     String editedColor;
-    int num=0;
+    Boolean editpin = false;
+
     CoordinatorLayout coordinatorLayout;
     NoteEntity entity;
     @Override
@@ -52,13 +53,8 @@ public class EditNoteActivity extends AppCompatActivity {
         etTitle1=findViewById(R.id.editNoteTitle);
         etDescription1=findViewById(R.id.editNoteDescription);
         dateTime1=findViewById(R.id.editDateTime);
-        changeBgColor=findViewById(R.id.changeBgColor);
-        changeBgColor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(EditNoteActivity.this, "This feature coming soon", Toast.LENGTH_SHORT).show();
-            }
-        });
+        editPin=findViewById(R.id.editpin);
+
 
         int id = getIntent().getIntExtra("note_id",0);
 
@@ -76,16 +72,25 @@ public class EditNoteActivity extends AppCompatActivity {
                 dateTime1.setText(noteEntity.getDateTime());
                 if(noteEntity.getColour()!=null){
                     editedColor = noteEntity.getColour();
-
+                }
+                if (noteEntity.isPinned()){
+                    editPin.setImageResource(R.drawable.notpin);
+                    editpin=true;
+                }
+            }
+        });
+        editPin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (editpin){
+                    editPin.setImageResource(R.drawable.pin);
+                    editpin=false;
+                }
+                else{
+                    editPin.setImageResource(R.drawable.notpin);
+                    editpin=true;
                 }
 
-                if (num==0){
-                    if (noteEntity.getColour()!=null){
-                        String color = noteEntity.getColour();
-                        int colorInt = getDynamiccolor(color,EditNoteActivity.this);
-                        coordinatorLayout.setBackgroundColor(colorInt);
-                    }
-                }
             }
         });
         back.setOnClickListener(new View.OnClickListener() {
@@ -111,6 +116,7 @@ public class EditNoteActivity extends AppCompatActivity {
                     note.setNoteDescription(etDescription1.getText().toString());
                     note.setDateTime(currentDateAndTime);
                     note.setColour(editedColor);
+                    note.setPinned(editpin);
                     editNoteViewModel.update(note);
 
                     finish();

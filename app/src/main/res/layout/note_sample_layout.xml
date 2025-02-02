@@ -20,15 +20,30 @@
        android:layout_marginBottom="10dp"
        android:layout_marginEnd="5dp"
        android:background="@color/colorDefaultNoteColor">
-       <TextView
-           android:id="@+id/rcvTitle"
+       <LinearLayout
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:text="My Note"
-           android:textSize="20dp"
-           android:textColor="@color/colorTextColor"
-           android:fontFamily="@font/ubuntu_bold"
-           />
+           android:orientation="horizontal">
+           <TextView
+               android:id="@+id/rcvTitle"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="My Note"
+               android:layout_weight="1"
+               android:textSize="20dp"
+               android:textColor="@color/colorTextColor"
+               android:fontFamily="@font/ubuntu_bold"
+               />
+
+           <ImageView
+               android:id="@+id/rcvIsPinned"
+               android:layout_width="20dp"
+               android:layout_marginEnd="5dp"
+               android:layout_height="20dp"
+               android:visibility="gone"
+               android:src="@drawable/notpin" />
+       </LinearLayout>
+
        <TextView
            android:id="@+id/rcvTime"
            android:layout_width="wrap_content"

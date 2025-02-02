@@ -28,6 +28,8 @@ public class AddNoteActivity extends AppCompatActivity {
     EditText etNoteTitle,etNoteDescription;
     TextView dateTime;
     String selectedColor;
+    Boolean pinned =false;
+    ImageView addPin;
     public static final String NOTE_ADDED="dataadded";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,20 @@ public class AddNoteActivity extends AppCompatActivity {
         etNoteTitle=findViewById(R.id.inputNoteTitle);
         etNoteDescription=findViewById(R.id.inputNoteDescription);
         dateTime=findViewById(R.id.textDateTime);
+        addPin=findViewById(R.id.addpin);
+        addPin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!pinned){
+                    addPin.setImageResource(R.drawable.notpin);
+                    pinned=true;
+                }
+                else {
+                    addPin.setImageResource(R.drawable.pin);
+                    pinned=false;
+                }
+            }
+        });
 
         initMislinious();
 
@@ -73,6 +89,7 @@ public class AddNoteActivity extends AppCompatActivity {
                     intent.putExtra("descadd",etNoteDescription.getText().toString());
                     intent.putExtra("dateadd",dateTime.getText().toString());
                     intent.putExtra("color",selectedColor);
+                    intent.putExtra("pin",pinned);
                     setResult(RESULT_OK,intent);
                     finish();
                 }

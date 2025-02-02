@@ -7,22 +7,35 @@
     android:fitsSystemWindows="true"
     android:background="@color/colorPrimary"
     android:layout_height="match_parent"
+    android:windowSoftInputMode="adjustPan"
     tools:context=".activities.MainActivity">
 
-    <TextView
+    <LinearLayout
         android:id="@+id/notely"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="28dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="30dp"
-        android:fontFamily="@font/ubuntu_bold"
-        android:text="@string/notely"
-        android:textColor="@color/colorTextColor"
-        android:textSize="28dp"
         android:paddingStart="5dp"
         app:layout_constraintEnd_toEndOf="@+id/linearLayout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/ubuntu_bold"
+            android:text="@string/notely"
+            android:textSize="28dp"
+            android:layout_weight="1"
+            android:textColor="@color/colorTextColor"/>
+        <ImageView
+            android:id="@+id/setting"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/setting"
+            app:tint="@color/colorIcons"/>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout"

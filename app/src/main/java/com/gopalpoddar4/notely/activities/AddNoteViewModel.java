@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.gopalpoddar4.notely.activities.DatabaseFiles.NoteDao;
 import com.gopalpoddar4.notely.activities.DatabaseFiles.NoteDatabase;
@@ -23,6 +24,13 @@ public class AddNoteViewModel extends AndroidViewModel {
         noteDao=noteDatabase.noteDao();
         allNotes=noteDao.getallnotes();
 
+    }
+    private MutableLiveData<Integer> myValue=new MutableLiveData<>();
+    public LiveData<Integer> noteformate( ){
+        return myValue;
+    }
+    public void setvalue(int value){
+        myValue.setValue(value);
     }
     public void insert(NoteEntity noteEntity){
         new InsertAsyncTask(noteDao).execute(noteEntity);

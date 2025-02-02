@@ -21,8 +21,16 @@ public class NoteEntity {
     String colour;
     @ColumnInfo(name = "link")
     String link;
+    @ColumnInfo(name = "pinned")
+    boolean isPinned;
 
+    public boolean isPinned() {
+        return isPinned;
+    }
 
+    public void setPinned(boolean pinned) {
+        isPinned = pinned;
+    }
 
     public int getId() {
         return id;

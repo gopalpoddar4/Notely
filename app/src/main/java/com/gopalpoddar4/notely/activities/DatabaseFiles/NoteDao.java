@@ -12,7 +12,7 @@ import java.util.List;
 @Dao
 public interface NoteDao {
 
-    @Query("SELECT * FROM note_table ORDER BY id DESC")
+    @Query("SELECT * FROM note_table ORDER BY pinned DESC, id DESC")
     LiveData<List<NoteEntity>> getallnotes();
 
     @Insert
@@ -27,6 +27,6 @@ public interface NoteDao {
     @Query("SELECT * FROM note_table WHERE id=:noteId")
     LiveData<NoteEntity> getNote(int noteId);
 
-    @Query("SELECT * FROM note_table WHERE title LIKE :query OR note_description LIKE :query ORDER BY id DESC")
+    @Query("SELECT * FROM note_table WHERE title LIKE :query OR note_description LIKE :query ORDER BY pinned DESC, id DESC")
     LiveData<List<NoteEntity>> searchNote(String query);
 }

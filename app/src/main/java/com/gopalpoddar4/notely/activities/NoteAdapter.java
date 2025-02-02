@@ -1,5 +1,7 @@
 package com.gopalpoddar4.notely.activities;
 
+import static android.view.View.VISIBLE;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -10,6 +12,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,6 +49,9 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.myVH> {
         holder.rcvTitle.setText(notes.get(position).getTitle());
         holder.rcvTime.setText(notes.get(position).getDateTime());
         holder.rcvDescription.setText(notes.get(position).getNoteDescription());
+        if(notes.get(position).isPinned() ){
+            holder.pin.setVisibility(VISIBLE);
+        }
 
         holder.linearLayout.setOnLongClickListener(new View.OnLongClickListener() {
            @Override
@@ -108,6 +114,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.myVH> {
 
         CardView linearLayout;
         LinearLayout ll;
+        ImageView pin;
         TextView rcvTitle,rcvDescription,rcvTime ;
         public myVH(@NonNull View itemView) {
             super(itemView);
@@ -116,6 +123,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.myVH> {
             linearLayout=itemView.findViewById(R.id.sampleLayout);
             rcvTime=itemView.findViewById(R.id.rcvTime);
             ll=itemView.findViewById(R.id.rcvLinear);
+            pin=itemView.findViewById(R.id.rcvIsPinned);
         }
 
     }
