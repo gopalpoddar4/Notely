@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_ADD_NOTE=1;
     public static final int REQUEST_CODE_UPDATE_NOTE=2;
     ImageView AddNoteBtn,setting;
-    int noteFormatValue = 0,num;
+    int noteFormatValue = 0;
     int noteByDate=0;
     int getNum;
     SharedPreferences sharedPreferences;
@@ -56,10 +56,8 @@ public class MainActivity extends AppCompatActivity {
                 View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
         );
 
-        SharedPreferences preferences = getSharedPreferences("format",MODE_PRIVATE);
-         num = preferences.getInt("formate_value",0);
-        addNoteViewModel.setvalue(num);
         addNoteViewModel=new ViewModelProvider(this).get(AddNoteViewModel.class);
+
         //finding views of id
         AddNoteBtn=findViewById(R.id.addNoteButton);
         recyclerView=findViewById(R.id.recycleView);
@@ -71,56 +69,33 @@ public class MainActivity extends AppCompatActivity {
                 showSettingDailog();
             }
         });
-
-        addNoteViewModel.noteformate().observe(MainActivity.this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-              getNum=integer;
-            }
-        });
-        if (getNum==0){
-            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
-
-        }else {
-            recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-
-        }
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
 
         addNoteViewModel.getAllNotes().observe(this, new Observer<List<NoteEntity>>() {
             @Override
             public void onChanged(List<NoteEntity> noteEntities) {
-               noteAdapter= new NoteAdapter(noteEntities,MainActivity.this,addNoteViewModel);
-               recyclerView.setHasFixedSize(true);
-               recyclerView.setAdapter(null);
+                noteAdapter= new NoteAdapter(noteEntities,MainActivity.this,addNoteViewModel);
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setAdapter(null);
+                recyclerView.setLayoutManager(null);
+                    StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+                    recyclerView.setLayoutManager(staggeredGridLayoutManager);
+                    recyclerView.setAdapter(noteAdapter);
+                   }
+               });
 
-               if (getNum==0){
-                   StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
-                   recyclerView.setLayoutManager(null);
-                   recyclerView.setLayoutManager(staggeredGridLayoutManager);
-               }else {
-                   LinearLayoutManager linearLayoutManager=new LinearLayoutManager(MainActivity.this);
-                   recyclerView.setLayoutManager(null);
-                   recyclerView.setLayoutManager(linearLayoutManager);
-               }
-
-
-                recyclerView.setAdapter(noteAdapter);
-            }
-        });
         AddNoteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               Intent intent = new Intent(getApplicationContext(),AddNoteActivity.class);
-               startActivityForResult(intent,REQUEST_CODE_ADD_NOTE);
+                Intent intent = new Intent(getApplicationContext(),AddNoteActivity.class);
+                startActivityForResult(intent,REQUEST_CODE_ADD_NOTE);
             }
         });
 
         searchNoteET.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
@@ -131,25 +106,15 @@ public class MainActivity extends AppCompatActivity {
                         noteAdapter= new NoteAdapter(noteEntities,MainActivity.this,addNoteViewModel);
                         recyclerView.setHasFixedSize(true);
                         recyclerView.setAdapter(null);
-
-                        if (getNum==0){
-                            StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
-                            recyclerView.setLayoutManager(null);
-                            recyclerView.setLayoutManager(staggeredGridLayoutManager);
-                        }else {
-                            LinearLayoutManager linearLayoutManager=new LinearLayoutManager(MainActivity.this);
-                            recyclerView.setLayoutManager(null);
-                            recyclerView.setLayoutManager(linearLayoutManager);
-                        }
-
+                        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+                        recyclerView.setLayoutManager(null);
+                        recyclerView.setLayoutManager(staggeredGridLayoutManager);
                         recyclerView.setAdapter(noteAdapter);
                     }
                 });
             }
-
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
     }
@@ -174,8 +139,6 @@ public class MainActivity extends AppCompatActivity {
                 noteFormatValue=0;
             }
         });
-
-
         linearLayout=view.findViewById(R.id.linearLayout);
         linearImage=view.findViewById(R.id.linearImg);
         linearText=view.findViewById(R.id.linearText);
@@ -188,15 +151,6 @@ public class MainActivity extends AppCompatActivity {
                 noteFormatValue=1;
             }
         });
-
-        if (getNum==0){
-            gridLayout.setBackgroundResource(R.drawable.format_bg);
-            linearLayout.setBackgroundResource(R.drawable.setting_bg);
-        }else {
-            gridLayout.setBackgroundResource(R.drawable.setting_bg);
-            linearLayout.setBackgroundResource(R.drawable.format_bg);
-        }
-
 
         oldToNew=view.findViewById(R.id.oldToNew);
         OTNImage=view.findViewById(R.id.OTNImg);
@@ -218,10 +172,7 @@ public class MainActivity extends AppCompatActivity {
         doneSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sharedPreferences=getSharedPreferences("format",MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt("formate_value",noteFormatValue);
-                editor.apply();
+
                 alertDialog.dismiss();
             }
         });
