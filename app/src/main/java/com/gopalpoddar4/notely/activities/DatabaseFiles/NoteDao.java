@@ -14,6 +14,8 @@ public interface NoteDao {
 
     @Query("SELECT * FROM note_table ORDER BY pinned DESC, id DESC")
     LiveData<List<NoteEntity>> getallnotes();
+    @Query("SELECT * FROM note_table ORDER BY pinned ASC, id ASC")
+    LiveData<List<NoteEntity>> getAllnoteOldFirst();
 
     @Insert
     void insertNote(NoteEntity noteEntity);

@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_UPDATE_NOTE=2;
     ImageView AddNoteBtn,setting;
     int noteFormatValue = 0,num;
+    int noteByDate=0;
     int getNum;
     SharedPreferences sharedPreferences;
     EditText searchNoteET;
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences preferences = getSharedPreferences("format",MODE_PRIVATE);
          num = preferences.getInt("formate_value",0);
+        addNoteViewModel.setvalue(num);
         addNoteViewModel=new ViewModelProvider(this).get(AddNoteViewModel.class);
         //finding views of id
         AddNoteBtn=findViewById(R.id.addNoteButton);
@@ -74,15 +76,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(Integer integer) {
               getNum=integer;
-                if (integer==0){
-                    recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
-
-                }else {
-                    recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-
-                }
             }
         });
+        if (getNum==0){
+            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+
+        }else {
+            recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
+        }
 
         addNoteViewModel.getAllNotes().observe(this, new Observer<List<NoteEntity>>() {
             @Override
@@ -91,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                recyclerView.setHasFixedSize(true);
                recyclerView.setAdapter(null);
 
-               if (num==0){
+               if (getNum==0){
                    StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
                    recyclerView.setLayoutManager(null);
                    recyclerView.setLayoutManager(staggeredGridLayoutManager);
@@ -130,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                         recyclerView.setHasFixedSize(true);
                         recyclerView.setAdapter(null);
 
-                        if (num==0){
+                        if (getNum==0){
                             StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
                             recyclerView.setLayoutManager(null);
                             recyclerView.setLayoutManager(staggeredGridLayoutManager);
@@ -220,7 +222,6 @@ public class MainActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putInt("formate_value",noteFormatValue);
                 editor.apply();
-                addNoteViewModel.setvalue(noteFormatValue);
                 alertDialog.dismiss();
             }
         });

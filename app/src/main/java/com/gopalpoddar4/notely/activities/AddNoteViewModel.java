@@ -17,12 +17,14 @@ public class AddNoteViewModel extends AndroidViewModel {
     private NoteDao noteDao;
     private NoteDatabase noteDatabase;
     LiveData<List<NoteEntity>> allNotes;
+    LiveData<List<NoteEntity>> allNotesOldFirst;
 
     public AddNoteViewModel(@NonNull Application application) {
         super(application);
         noteDatabase=NoteDatabase.noteDatabase(application);
         noteDao=noteDatabase.noteDao();
         allNotes=noteDao.getallnotes();
+        allNotesOldFirst=noteDao.getAllnoteOldFirst();
 
     }
     private MutableLiveData<Integer> myValue=new MutableLiveData<>();
@@ -40,6 +42,9 @@ public class AddNoteViewModel extends AndroidViewModel {
     }
     LiveData<List<NoteEntity>> getAllNotes(){
         return allNotes;
+    }
+    LiveData<List<NoteEntity>> getAllNotesOldFirst(){
+        return allNotesOldFirst;
     }
     LiveData<List<NoteEntity>> searchNote(String query){
         return noteDao.searchNote("%" + query + "%");
