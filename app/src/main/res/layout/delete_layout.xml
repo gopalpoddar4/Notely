@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="250dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/setting_bg"
+    android:orientation="vertical"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="20dp"
+    android:id="@+id/delete_view"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Delete note"
+        android:textSize="22sp"
+        android:textColor="@color/colorTextColor"
+        android:fontFamily="@font/ubuntu_bold"
+        android:layout_marginTop="5dp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/areYouSure"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Are you sure you want to delete"
+        android:textSize="18sp"
+        android:textColor="@color/colorTextColor"
+        android:fontFamily="@font/ubuntu_medium"
+        android:gravity="center"
+        android:layout_marginVertical="15dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:paddingVertical="5dp"
+        >
+        <TextView
+            android:id="@+id/cancel_delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:gravity="center"
+            android:textColor="@color/colorIcons"
+            android:textSize="20sp"
+            android:fontFamily="@font/ubuntu_bold"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/btn_delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:gravity="center"
+            android:textColor="@color/colorAccent"
+            android:textSize="20sp"
+            android:fontFamily="@font/ubuntu_bold"
+            android:layout_weight="1"/>
+    </LinearLayout>
+</LinearLayout>
+

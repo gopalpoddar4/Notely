@@ -1,26 +1,19 @@
 package com.gopalpoddar4.notely.activities;
 
 import static android.view.View.VISIBLE;
-
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 import com.gopalpoddar4.notely.R;
 import com.gopalpoddar4.notely.activities.DatabaseFiles.NoteEntity;
@@ -30,7 +23,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.myVH> {
     Context context;
     private AddNoteViewModel addNoteViewModel;
     public static final int REQUEST_CODE_UPDATE_NOTE=2;
-    public NoteAdapter(List<NoteEntity> notes, Context context,AddNoteViewModel addNoteViewModel) {
+    public NoteAdapter(List<NoteEntity> notes, Context context,AddNoteViewModel addNoteViewModel  ) {
         this.notes = notes;
         this.context = context;
         this.addNoteViewModel=addNoteViewModel;
@@ -56,27 +49,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.myVH> {
         holder.linearLayout.setOnLongClickListener(new View.OnLongClickListener() {
            @Override
            public boolean onLongClick(View v) {
-               AlertDialog.Builder builder = new AlertDialog.Builder(context);
-               builder.setTitle("Delete note");
-               builder.setMessage("Are you sure you want to delete");
-               builder.setIcon(R.drawable.delete);
-               builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                   @Override
-                   public void onClick(DialogInterface dialog, int which) {
-                       addNoteViewModel.delete(temp);
-                       dialog.dismiss();
-                       Toast.makeText(context, "Note deleted", Toast.LENGTH_SHORT).show();
-                   }
-               });
-               builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                   @Override
-                   public void onClick(DialogInterface dialog, int which) {
-                       dialog.dismiss();
-                   }
-               });
-               AlertDialog dialog = builder.create();
-               dialog.show();
-               return true;
+               showDaiolog(notes.get(position),v);
+                return true;
            }
        });
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
@@ -101,11 +75,85 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.myVH> {
         }
     }
 
+    public void showDaiolog(NoteEntity note,View v){
+        LinearLayout linearLayout1 =  v.findViewById(R.id.pin_delete_layout);
+        View view = LayoutInflater.from(context).inflate(R.layout.pin_delete_lock_layout,null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, com.google.android.material.R.style.ThemeOverlay_Material3_Dialog);
+        builder.setView(view);
+        AlertDialog alertDialog=builder.create();
+
+        LinearLayout pinLayout = view.findViewById(R.id.pin_layout);
+        ImageView img_pin = view.findViewById(R.id.pin_img);
+        TextView txt_pin = view.findViewById(R.id.pin_txt);
+        if (note.isPinned()){
+            img_pin.setImageResource(R.drawable.notpin);
+            txt_pin.setText("Unpin Note");
+            pinLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    note.setPinned(false);
+                    addNoteViewModel.update(note);
+                    alertDialog.dismiss();
+                }
+            });
+        } else {
+            pinLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    note.setPinned(true);
+                    addNoteViewModel.update(note);
+                    alertDialog.dismiss();
+                }
+            });
+        }
+        LinearLayout deleteLayout = view.findViewById(R.id.delete_layout);
+        LinearLayout lockLayout = view.findViewById(R.id.lock_layout);
+
+        //Here we perform delete note operation
+        deleteLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LinearLayout deletelayout = v.findViewById(R.id.delete_view);
+                View view1 = LayoutInflater.from(context).inflate(R.layout.delete_layout,null);
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(context, com.google.android.material.R.style.ThemeOverlay_Material3_Dialog);
+                builder1.setView(view1);
+                AlertDialog alertDialog1=builder1.create();
+
+                TextView cancelBtn = view1.findViewById(R.id.cancel_delete);
+                cancelBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog1.dismiss();
+                    }
+                });
+                TextView deleteBtn = view1.findViewById(R.id.btn_delete);
+                deleteBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addNoteViewModel.delete(note);
+                        alertDialog1.dismiss();
+                    }
+                });
+
+                alertDialog1.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                alertDialog1.show();
+                alertDialog.dismiss();
+
+            }
+
+        });
+
+
+        alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        alertDialog.show();
+
+        alertDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
+
     private int getDynamicColor(String colorName,Context context) {
         int colorId =  context.getResources().getIdentifier(colorName,"color",context.getPackageName());
         return ContextCompat.getColor(context,colorId);
     }
-
     @Override
     public int getItemCount() {
         return notes.size();

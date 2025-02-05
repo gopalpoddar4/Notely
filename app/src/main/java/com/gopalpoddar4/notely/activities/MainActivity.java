@@ -2,11 +2,9 @@ package com.gopalpoddar4.notely.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -14,31 +12,23 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.activity.EdgeToEdge;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-
 import com.gopalpoddar4.notely.R;
 import com.gopalpoddar4.notely.activities.DatabaseFiles.NoteEntity;
-
 import java.util.List;
 public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_ADD_NOTE=1;
     public static final int REQUEST_CODE_UPDATE_NOTE=2;
     ImageView AddNoteBtn,setting;
     int noteFormatValue = 0;
-    int noteByDate=0;
     int getNum;
-    SharedPreferences sharedPreferences;
     EditText searchNoteET;
     private AddNoteViewModel addNoteViewModel;
     RecyclerView recyclerView;
@@ -122,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
     private void showSettingDailog(){
         LinearLayout linearLayout1 = findViewById(R.id.settingLayout);
         View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.setting_layout,null);
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, com.google.android.material.R.style.ThemeOverlay_Material3_Dialog);
         builder.setView(view);
         AlertDialog alertDialog=builder.create();
 

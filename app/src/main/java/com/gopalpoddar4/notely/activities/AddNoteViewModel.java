@@ -37,6 +37,20 @@ public class AddNoteViewModel extends AndroidViewModel {
     LiveData<List<NoteEntity>> searchNote(String query){
         return noteDao.searchNote("%" + query + "%");
     }
+    public void update(NoteEntity noteEntity){
+        new  UpdateAsyncTask(noteDao).execute(noteEntity);
+    }
+    private class UpdateAsyncTask extends AsyncTask<NoteEntity,Void,Void> {
+        NoteDao mNoteDao;
+        public UpdateAsyncTask(NoteDao mNoteDao) {
+            this.mNoteDao = mNoteDao;
+        }
+        @Override
+        protected Void doInBackground(NoteEntity... noteEntities) {
+            noteDao.updateNote(noteEntities[0]);
+            return null;
+        }
+    }
     private class DeleteAsuncTask extends AsyncTask<NoteEntity,Void,Void>{
         NoteDao mNoteDao;
         public DeleteAsuncTask(NoteDao mNoteDao) {

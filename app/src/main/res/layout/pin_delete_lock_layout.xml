@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/pin_delete_layout"
+    android:background="@drawable/setting_bg"
+    android:windowSoftInputMode="adjustPan"
+     >
+
+   <LinearLayout
+       android:layout_width="240dp"
+       android:layout_height="wrap_content"
+       android:orientation="vertical"
+       android:layout_marginVertical="15dp">
+       <LinearLayout
+           android:layout_marginTop="20dp"
+           android:id="@+id/pin_layout"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:gravity="center">
+           <ImageView
+               android:id="@+id/pin_img"
+               android:layout_width="20dp"
+               android:layout_height="20dp"
+               android:src="@drawable/pin"/>
+           <TextView
+               android:id="@+id/pin_txt"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Pin Note"
+               android:textColor="@color/colorTextColor"
+               android:layout_marginStart="5dp"
+               android:fontFamily="@font/ubuntu_medium"
+               android:textSize="16sp"/>
+       </LinearLayout>
+       <LinearLayout
+           android:id="@+id/delete_layout"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:gravity="center"
+           android:layout_marginVertical="22dp">
+           <ImageView
+               android:layout_width="20dp"
+               android:layout_height="20dp"
+               android:src="@drawable/delete"/>
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Delete Note"
+               android:layout_marginStart="5dp"
+               android:textColor="@color/colorTextColor"
+               android:fontFamily="@font/ubuntu_medium"
+               android:textSize="16sp"/>
+       </LinearLayout>
+       <LinearLayout
+           android:layout_marginBottom="20dp"
+           android:id="@+id/lock_layout"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:gravity="center">
+           <ImageView
+               android:id="@+id/lock_img"
+               android:layout_width="20dp"
+               android:layout_height="20dp"
+               android:src="@drawable/pin"/>
+           <TextView
+               android:id="@+id/lock_txt"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginStart="5dp"
+               android:text="Lock Note"
+               android:textColor="@color/colorTextColor"
+               android:fontFamily="@font/ubuntu_medium"
+               android:textSize="16sp"/>
+       </LinearLayout>
+
+   </LinearLayout>
+</LinearLayout>
