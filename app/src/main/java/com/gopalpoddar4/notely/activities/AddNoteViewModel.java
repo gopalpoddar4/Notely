@@ -25,6 +25,13 @@ public class AddNoteViewModel extends AndroidViewModel {
         allNotes=noteDao.getallnotes();
     }
 
+    private MutableLiveData<Integer> value = new MutableLiveData<>();
+    public LiveData<Integer> getValue(){
+        return value;
+    }
+    public void setValue(int value1){
+        value.setValue(value1);
+    }
     public void insert(NoteEntity noteEntity){
         new InsertAsyncTask(noteDao).execute(noteEntity);
     }

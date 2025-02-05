@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
@@ -108,6 +110,14 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.myVH> {
         }
         LinearLayout deleteLayout = view.findViewById(R.id.delete_layout);
         LinearLayout lockLayout = view.findViewById(R.id.lock_layout);
+
+        lockLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                Toast.makeText(context, "Feature coming soon", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         //Here we perform delete note operation
         deleteLayout.setOnClickListener(new View.OnClickListener() {

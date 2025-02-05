@@ -18,6 +18,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.gopalpoddar4.notely.R;
@@ -59,20 +60,69 @@ public class MainActivity extends AppCompatActivity {
                 showSettingDailog();
             }
         });
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
-
-        addNoteViewModel.getAllNotes().observe(this, new Observer<List<NoteEntity>>() {
+        SharedPreferences preferences =getSharedPreferences("note_format",MODE_PRIVATE);
+        getNum=preferences.getInt("format",0);
+        if (getNum==0){
+            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+        }else {
+            recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        }
+        addNoteViewModel.setValue(getNum);
+        addNoteViewModel.getValue().observe(this, new Observer<Integer>() {
             @Override
-            public void onChanged(List<NoteEntity> noteEntities) {
-                noteAdapter= new NoteAdapter(noteEntities,MainActivity.this,addNoteViewModel);
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setAdapter(null);
-                recyclerView.setLayoutManager(null);
-                    StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
-                    recyclerView.setLayoutManager(staggeredGridLayoutManager);
-                    recyclerView.setAdapter(noteAdapter);
-                   }
-               });
+            public void onChanged(Integer integer) {
+                addNoteViewModel.getAllNotes().observe(MainActivity.this, new Observer<List<NoteEntity>>() {
+                    @Override
+                    public void onChanged(List<NoteEntity> noteEntities) {
+                        noteAdapter= new NoteAdapter(noteEntities,MainActivity.this,addNoteViewModel);
+                        recyclerView.setHasFixedSize(true);
+                        recyclerView.setAdapter(null);
+                        recyclerView.setLayoutManager(null);
+                        if (integer==0){
+                            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+                        }else {
+                            recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                        }
+                        recyclerView.setAdapter(noteAdapter);
+                    }
+                });
+            }
+        });
+
+        addNoteViewModel.getValue().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                searchNoteET.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                        String query = s.toString();
+                        addNoteViewModel.searchNote(query).observe(MainActivity.this, new Observer<List<NoteEntity>>() {
+                            @Override
+                            public void onChanged(List<NoteEntity> noteEntities) {
+                                noteAdapter= new NoteAdapter(noteEntities,MainActivity.this,addNoteViewModel);
+                                recyclerView.setHasFixedSize(true);
+                                recyclerView.setAdapter(null);
+                                recyclerView.setLayoutManager(null);
+
+                                if (integer==0){
+                                    recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+                                }else {
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                                }
+                                recyclerView.setAdapter(noteAdapter);
+                            }
+                        });
+                    }
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                    }
+                });
+            }
+        });
 
         AddNoteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,33 +132,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        searchNoteET.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                String query = s.toString();
-                addNoteViewModel.searchNote(query).observe(MainActivity.this, new Observer<List<NoteEntity>>() {
-                    @Override
-                    public void onChanged(List<NoteEntity> noteEntities) {
-                        noteAdapter= new NoteAdapter(noteEntities,MainActivity.this,addNoteViewModel);
-                        recyclerView.setHasFixedSize(true);
-                        recyclerView.setAdapter(null);
-                        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
-                        recyclerView.setLayoutManager(null);
-                        recyclerView.setLayoutManager(staggeredGridLayoutManager);
-                        recyclerView.setAdapter(noteAdapter);
-                    }
-                });
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
     }
-
     private void showSettingDailog(){
         LinearLayout linearLayout1 = findViewById(R.id.settingLayout);
         View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.setting_layout,null);
@@ -142,6 +166,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        addNoteViewModel.getValue().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                if (integer==0){
+                    gridLayout.setBackgroundResource(R.drawable.format_bg);
+                    linearLayout.setBackgroundResource(R.color.colorPrimary);
+                }else {
+                    linearLayout.setBackgroundResource(R.drawable.format_bg);
+                    gridLayout.setBackgroundResource(R.color.colorPrimary);
+                }
+            }
+        });
+
+
+
         oldToNew=view.findViewById(R.id.oldToNew);
         OTNImage=view.findViewById(R.id.OTNImg);
         OTNText=view.findViewById(R.id.OTNText);
@@ -163,6 +202,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                SharedPreferences sharedPreferences = getSharedPreferences("note_format",MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("format",noteFormatValue);
+                editor.apply();
+                addNoteViewModel.setValue(noteFormatValue);
                 alertDialog.dismiss();
             }
         });
