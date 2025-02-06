@@ -4,6 +4,7 @@ import static android.view.View.VISIBLE;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.gopalpoddar4.notely.R;
 import com.gopalpoddar4.notely.activities.DatabaseFiles.NoteEntity;
 import java.util.List;
+
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.myVH> {
     List<NoteEntity> notes;
     Context context;
@@ -142,6 +144,22 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.myVH> {
                     public void onClick(View v) {
                         addNoteViewModel.delete(note);
                         alertDialog1.dismiss();
+
+                        LinearLayout delete_anim = v.findViewById(R.id.delete_anim);
+                        View view2 = LayoutInflater.from(context).inflate(R.layout.delete_animation_layout,null);
+                        AlertDialog.Builder builder2 = new AlertDialog.Builder(context, com.google.android.material.R.style.ThemeOverlay_Material3_Dialog);
+                        builder2.setView(view2);
+                        AlertDialog alertDialog2 = builder2.create();
+                        alertDialog2.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                        alertDialog2.show();
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                               alertDialog2.dismiss();
+                            }
+                        },5000);
+
                     }
                 });
 
