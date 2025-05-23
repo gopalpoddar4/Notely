@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,23 +17,33 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.gopalpoddar4.notely.R;
+import com.gopalpoddar4.notely.activities.CategoryFiles.CategoryAdapter;
+import com.gopalpoddar4.notely.activities.CategoryFiles.CategoryInterface;
+import com.gopalpoddar4.notely.activities.CategoryFiles.CategoryModel;
 import com.gopalpoddar4.notely.activities.DatabaseFiles.NoteEntity;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_ADD_NOTE=1;
-    public static final int REQUEST_CODE_UPDATE_NOTE=2;
-    ImageView AddNoteBtn,setting;
+    ImageView AddNoteBtn,setting,addNewCategory;
     int noteFormatValue = 0;
+    List<CategoryModel> categoryList;
+    EditText addCategoryET;
+    Button addCategoryBtn;
+    String Category;
     int getNum;
-    EditText searchNoteET;
+    SearchView searchNoteET;
     private AddNoteViewModel addNoteViewModel;
-    RecyclerView recyclerView;
+    RecyclerView recyclerView,rcvCategory;
     NoteAdapter noteAdapter;
     LinearLayout gridLayout,linearLayout,newToOld,oldToNew;
     ImageView gridImage,linearImage,NTOImage,OTNImage;
@@ -43,9 +54,21 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
         );
+
+        categoryList=new ArrayList<>();
+        categoryList.add(new CategoryModel("All"));
+        categoryList.add(new CategoryModel("Shayri"));
+        categoryList.add(new CategoryModel("College Task"));
+        categoryList.add(new CategoryModel("Contect"));
+        categoryList.add(new CategoryModel("Youtube"));
+        categoryList.add(new CategoryModel("Instagram"));
+        categoryList.add(new CategoryModel("Coding"));
+
+
 
         addNoteViewModel=new ViewModelProvider(this).get(AddNoteViewModel.class);
 
@@ -54,12 +77,58 @@ public class MainActivity extends AppCompatActivity {
         recyclerView=findViewById(R.id.recycleView);
         searchNoteET=findViewById(R.id.searchEditText);
         setting=findViewById(R.id.setting);
+        rcvCategory=findViewById(R.id.categoryRcv);
+        addNewCategory=findViewById(R.id.addNewCategory);
+
+        addNewCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addcategory();
+            }
+        });
+
+        rcvCategory.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
+        CategoryAdapter categoryAdapter = new CategoryAdapter(categoryList, this, addNoteViewModel, new CategoryInterface() {
+            @Override
+            public void onItemClick(String categoryName) {
+                addNoteViewModel.categoryNote(categoryName).observe(MainActivity.this, new Observer<List<NoteEntity>>() {
+                    @Override
+                    public void onChanged(List<NoteEntity> noteEntities) {
+                        addNoteViewModel.getValue().observe(MainActivity.this, new Observer<Integer>() {
+                            @Override
+                            public void onChanged(Integer integer) {
+                                addNoteViewModel.categoryNote(categoryName).observe(MainActivity.this, new Observer<List<NoteEntity>>() {
+                                    @Override
+                                    public void onChanged(List<NoteEntity> noteEntities) {
+                                        noteAdapter= new NoteAdapter(noteEntities,MainActivity.this,addNoteViewModel,categoryList);
+                                        recyclerView.setHasFixedSize(true);
+                                        recyclerView.setAdapter(null);
+                                        recyclerView.setLayoutManager(null);
+                                        if (integer==0){
+                                            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+                                        }else {
+                                            recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                                        }
+                                        recyclerView.setAdapter(noteAdapter);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+        rcvCategory.setAdapter(categoryAdapter);
+        searchNoteET.setQueryHint("Search Notes");
+
+        //Setting button function
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showSettingDailog();
             }
         });
+
         SharedPreferences preferences =getSharedPreferences("note_format",MODE_PRIVATE);
         getNum=preferences.getInt("format",0);
         if (getNum==0){
@@ -74,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
                 addNoteViewModel.getAllNotes().observe(MainActivity.this, new Observer<List<NoteEntity>>() {
                     @Override
                     public void onChanged(List<NoteEntity> noteEntities) {
-                        noteAdapter= new NoteAdapter(noteEntities,MainActivity.this,addNoteViewModel);
+                        noteAdapter= new NoteAdapter(noteEntities,MainActivity.this,addNoteViewModel,categoryList);
                         recyclerView.setHasFixedSize(true);
                         recyclerView.setAdapter(null);
                         recyclerView.setLayoutManager(null);
@@ -89,41 +158,42 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        addNoteViewModel.getValue().observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                searchNoteET.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    }
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        //Search activity function
+         searchNoteET.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+             @Override
+             public boolean onQueryTextSubmit(String query) {
+                 return false;
+             }
 
-                        String query = s.toString();
-                        addNoteViewModel.searchNote(query).observe(MainActivity.this, new Observer<List<NoteEntity>>() {
-                            @Override
-                            public void onChanged(List<NoteEntity> noteEntities) {
-                                noteAdapter= new NoteAdapter(noteEntities,MainActivity.this,addNoteViewModel);
-                                recyclerView.setHasFixedSize(true);
-                                recyclerView.setAdapter(null);
-                                recyclerView.setLayoutManager(null);
+             @Override
+             public boolean onQueryTextChange(String query) {
+                 addNoteViewModel.searchNote(query).observe(MainActivity.this, new Observer<List<NoteEntity>>() {
+                     @Override
+                     public void onChanged(List<NoteEntity> noteEntities) {
+                         noteAdapter= new NoteAdapter(noteEntities,MainActivity.this,addNoteViewModel,categoryList);
+                         recyclerView.setHasFixedSize(true);
+                         recyclerView.setAdapter(null);
+                         recyclerView.setLayoutManager(null);
 
-                                if (integer==0){
-                                    recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
-                                }else {
-                                    recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                                }
-                                recyclerView.setAdapter(noteAdapter);
-                            }
-                        });
-                    }
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                    }
-                });
-            }
-        });
+                         addNoteViewModel.getValue().observe(MainActivity.this, new Observer<Integer>() {
+                             @Override
+                             public void onChanged(Integer integer) {
+                                 if (integer==0){
+                                     recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+                                 }else {
+                                     recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                                 }
+                             }
+                         });
 
+                         recyclerView.setAdapter(noteAdapter);
+                     }
+                 });
+                 return true;
+             }
+         });
+
+        // Add button function
         AddNoteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,6 +203,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+    //Showing the alert dialog for setting
     private void showSettingDailog(){
         LinearLayout linearLayout1 = findViewById(R.id.settingLayout);
         View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.setting_layout,null);
@@ -149,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 gridLayout.setBackgroundResource(R.drawable.format_bg);
-                linearLayout.setBackgroundResource(R.color.colorPrimary);
+                linearLayout.setBackgroundResource(android.R.color.transparent);
                 noteFormatValue=0;
             }
         });
@@ -161,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 linearLayout.setBackgroundResource(R.drawable.format_bg);
-                gridLayout.setBackgroundResource(R.color.colorPrimary);
+                gridLayout.setBackgroundResource(android.R.color.transparent);
                 noteFormatValue=1;
             }
         });
@@ -171,10 +242,10 @@ public class MainActivity extends AppCompatActivity {
             public void onChanged(Integer integer) {
                 if (integer==0){
                     gridLayout.setBackgroundResource(R.drawable.format_bg);
-                    linearLayout.setBackgroundResource(R.color.colorPrimary);
+                    linearLayout.setBackgroundResource(android.R.color.transparent);
                 }else {
                     linearLayout.setBackgroundResource(R.drawable.format_bg);
-                    gridLayout.setBackgroundResource(R.color.colorPrimary);
+                    gridLayout.setBackgroundResource(android.R.color.transparent);
                 }
             }
         });
@@ -215,6 +286,35 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+    //Add new category function
+    private void addcategory(){
+
+        View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.add_category_dialog,null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, com.google.android.material.R.style.ThemeOverlay_Material3_Dialog);
+        builder.setView(view);
+        AlertDialog alertDialog=builder.create();
+
+        addCategoryET=view.findViewById(R.id.newCategoryET);
+        addCategoryBtn=view.findViewById(R.id.addCategory);
+
+        addCategoryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Category = addCategoryET.getText().toString();
+                if (Category.isEmpty()){
+                    alertDialog.dismiss();
+                    Toast.makeText(MainActivity.this, "Please enter category", Toast.LENGTH_SHORT).show();
+                }else{
+                    alertDialog.dismiss();
+                    Toast.makeText(MainActivity.this, "Category added "+Category, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+        alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        alertDialog.show();
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -230,6 +330,9 @@ public class MainActivity extends AppCompatActivity {
             noteEntity.setDateTime(datetime);
             noteEntity.setColour(color);
             noteEntity.setPinned(pinned);
+            noteEntity.setCategory("All");
+            noteEntity.setAllCategory("All");
+
             addNoteViewModel.insert(noteEntity);
             Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
         }

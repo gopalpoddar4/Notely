@@ -67,6 +67,7 @@
                 android:textColorHint="@color/colorTextHint"
                 android:textColor="@color/colorTextColor"
                 android:background="@null"
+                android:singleLine="true"
                 android:textSize="25dp"
                 android:fontFamily="@font/ubuntu_bold"
                 app:layout_constraintTop_toBottomOf="@+id/backBtnEdit"

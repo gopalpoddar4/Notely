@@ -64,6 +64,7 @@
                 android:layout_marginTop="25dp"
                 android:background="@null"
                 android:fontFamily="@font/ubuntu_bold"
+                android:singleLine="true"
                 android:hint="Note Title"
                 android:minHeight="40dp"
                 android:textColor="@color/colorTextColor"

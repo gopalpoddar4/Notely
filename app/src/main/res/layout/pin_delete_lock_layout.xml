@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:id="@+id/pin_delete_layout"
     android:background="@drawable/setting_bg"
-    android:windowSoftInputMode="adjustPan"
-     >
+    android:windowSoftInputMode="adjustPan">
 
    <LinearLayout
        android:layout_width="240dp"
@@ -25,7 +24,8 @@
                android:id="@+id/pin_img"
                android:layout_width="20dp"
                android:layout_height="20dp"
-               android:src="@drawable/pin"/>
+               android:src="@drawable/pin"
+               app:tint="@color/colorTextColor"/>
            <TextView
                android:id="@+id/pin_txt"
                android:layout_width="wrap_content"
@@ -46,7 +46,8 @@
            <ImageView
                android:layout_width="20dp"
                android:layout_height="20dp"
-               android:src="@drawable/delete"/>
+               android:src="@drawable/delete"
+               app:tint="@color/colorTextColor"/>
            <TextView
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
@@ -67,13 +68,37 @@
                android:id="@+id/lock_img"
                android:layout_width="20dp"
                android:layout_height="20dp"
-               android:src="@drawable/pin"/>
+               android:src="@drawable/lock"
+               app:tint="@color/colorTextColor"/>
            <TextView
                android:id="@+id/lock_txt"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_marginStart="5dp"
                android:text="Lock Note"
+               android:textColor="@color/colorTextColor"
+               android:fontFamily="@font/ubuntu_medium"
+               android:textSize="16sp"/>
+       </LinearLayout>
+       <LinearLayout
+           android:layout_marginBottom="20dp"
+           android:id="@+id/category_layout"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:gravity="center">
+           <ImageView
+               android:id="@+id/category_img"
+               android:layout_width="20dp"
+               android:layout_height="20dp"
+               android:src="@drawable/category_24"
+               app:tint="@color/colorTextColor"/>
+           <TextView
+               android:id="@+id/category_txt"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginStart="5dp"
+               android:text="Select Category"
                android:textColor="@color/colorTextColor"
                android:fontFamily="@font/ubuntu_medium"
                android:textSize="16sp"/>

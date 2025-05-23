@@ -1,5 +1,6 @@
 package com.gopalpoddar4.notely.activities.DatabaseFiles;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -24,13 +25,25 @@ public class NoteEntity {
     @ColumnInfo(name = "pinned")
     boolean isPinned;
 
+
+
+    @NonNull
+    @ColumnInfo(name = "category",defaultValue = "All")
+    String category;
+
+    @NonNull
+    @ColumnInfo(name = "allcategory",defaultValue = "All")
+    String allCategory;
+
     public boolean isPinned() {
         return isPinned;
     }
 
+
     public void setPinned(boolean pinned) {
         isPinned = pinned;
     }
+
 
     public int getId() {
         return id;
@@ -87,4 +100,24 @@ public class NoteEntity {
     public void setLink(String link) {
         this.link = link;
     }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    @NonNull
+    public String getAllCategory() {
+        return allCategory;
+    }
+
+    public void setAllCategory(@NonNull String allCategory) {
+        this.allCategory = allCategory;
+    }
+
+
+
 }

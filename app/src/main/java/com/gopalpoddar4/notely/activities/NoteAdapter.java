@@ -1,5 +1,6 @@
 package com.gopalpoddar4.notely.activities;
 
+import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import android.app.Activity;
 import android.content.Context;
@@ -8,8 +9,13 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,18 +25,20 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.gopalpoddar4.notely.R;
+import com.gopalpoddar4.notely.activities.CategoryFiles.CategoryModel;
 import com.gopalpoddar4.notely.activities.DatabaseFiles.NoteEntity;
 import java.util.List;
-
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.myVH> {
     List<NoteEntity> notes;
     Context context;
     private AddNoteViewModel addNoteViewModel;
+    List<CategoryModel> categoryList;
     public static final int REQUEST_CODE_UPDATE_NOTE=2;
-    public NoteAdapter(List<NoteEntity> notes, Context context,AddNoteViewModel addNoteViewModel  ) {
+    public NoteAdapter(List<NoteEntity> notes, Context context,AddNoteViewModel addNoteViewModel,List<CategoryModel> categoryList ) {
         this.notes = notes;
         this.context = context;
         this.addNoteViewModel=addNoteViewModel;
+        this.categoryList=categoryList;
     }
     @NonNull
     @Override
@@ -48,25 +56,23 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.myVH> {
         holder.rcvDescription.setText(notes.get(position).getNoteDescription());
         if(notes.get(position).isPinned() ){
             holder.pin.setVisibility(VISIBLE);
+        }else{
+            holder.pin.setVisibility(GONE);
         }
 
         holder.linearLayout.setOnLongClickListener(new View.OnLongClickListener() {
-           @Override
-           public boolean onLongClick(View v) {
-               showDaiolog(notes.get(position),v);
+            @Override
+            public boolean onLongClick(View v) {
+                showDaiolog(notes.get(position),v,categoryList);
                 return true;
-           }
-       });
+            }
+        });
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, EditNoteActivity.class);
-                intent.putExtra("note_id",temp.getId());
-                intent.putExtra("title",temp.getTitle());
-                intent.putExtra("desc",temp.getNoteDescription());
-                intent.putExtra("time",temp.getDateTime());
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 ((Activity)context).startActivityForResult(intent,REQUEST_CODE_UPDATE_NOTE);
+
             }
         });
 
@@ -79,7 +85,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.myVH> {
         }
     }
 
-    public void showDaiolog(NoteEntity note,View v){
+    public void showDaiolog(NoteEntity note,View v,List<CategoryModel> categoryList){
         LinearLayout linearLayout1 =  v.findViewById(R.id.pin_delete_layout);
         View view = LayoutInflater.from(context).inflate(R.layout.pin_delete_lock_layout,null);
         AlertDialog.Builder builder = new AlertDialog.Builder(context, com.google.android.material.R.style.ThemeOverlay_Material3_Dialog);
@@ -89,6 +95,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.myVH> {
         LinearLayout pinLayout = view.findViewById(R.id.pin_layout);
         ImageView img_pin = view.findViewById(R.id.pin_img);
         TextView txt_pin = view.findViewById(R.id.pin_txt);
+        TextView lock_txt = view.findViewById(R.id.lock_txt);
         if (note.isPinned()){
             img_pin.setImageResource(R.drawable.notpin);
             txt_pin.setText("Unpin Note");
@@ -110,14 +117,66 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.myVH> {
                 }
             });
         }
+
+
         LinearLayout deleteLayout = view.findViewById(R.id.delete_layout);
         LinearLayout lockLayout = view.findViewById(R.id.lock_layout);
+        LinearLayout categorylayout = view.findViewById(R.id.category_layout);
 
         lockLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                View view3 = LayoutInflater.from(context).inflate(R.layout.lock_dialog,null);
+                AlertDialog.Builder builder3 = new AlertDialog.Builder(context, com.google.android.material.R.style.ThemeOverlay_Material3_Dialog);
+                builder3.setView(view3);
+                AlertDialog alertDialog3=builder3.create();
+
+                TextView locktxt = view3.findViewById(R.id.lock_txt);
+                EditText locket = view3.findViewById(R.id.locket);
+                Button lockBtn = view3.findViewById(R.id.lockBtn);
+
+
+
+                alertDialog3.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                alertDialog3.show();
+
+                alertDialog3.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+
                 alertDialog.dismiss();
-                Toast.makeText(context, "Feature coming soon", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        categorylayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                View viewc = LayoutInflater.from(context).inflate(R.layout.category_spinner,null);
+                AlertDialog.Builder builderc = new AlertDialog.Builder(context, com.google.android.material.R.style.ThemeOverlay_Material3_Dialog);
+                builderc.setView(viewc);
+                AlertDialog alertDialogc =builderc.create();
+
+                Spinner spinner = viewc.findViewById(R.id.categorySpinner);
+                Button ok = viewc.findViewById(R.id.okcategory);
+
+                ArrayAdapter<CategoryModel> spinnerAdapter = new ArrayAdapter<>(context,android.R.layout.simple_spinner_dropdown_item,categoryList);
+                spinner.setAdapter(spinnerAdapter);
+
+                ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String selectedCategort = spinner.getSelectedItem().toString();
+                        note.setCategory(selectedCategort);
+                        addNoteViewModel.update(note);
+                        alertDialogc.dismiss();
+                        Toast.makeText(context, selectedCategort + " Category Selected", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+                alertDialogc.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                alertDialogc.show();
+                alertDialogc.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
             }
         });
 
@@ -156,7 +215,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.myVH> {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                               alertDialog2.dismiss();
+                                alertDialog2.dismiss();
                             }
                         },5000);
 
@@ -192,6 +251,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.myVH> {
         LinearLayout ll;
         ImageView pin;
         TextView rcvTitle,rcvDescription,rcvTime ;
+        FrameLayout lockOverlay;
         public myVH(@NonNull View itemView) {
             super(itemView);
             rcvTitle=itemView.findViewById(R.id.rcvTitle);
@@ -200,6 +260,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.myVH> {
             rcvTime=itemView.findViewById(R.id.rcvTime);
             ll=itemView.findViewById(R.id.rcvLinear);
             pin=itemView.findViewById(R.id.rcvIsPinned);
+            lockOverlay=itemView.findViewById(R.id.lockOverlay);
         }
 
     }

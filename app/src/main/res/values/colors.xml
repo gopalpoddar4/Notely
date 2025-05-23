@@ -33,5 +33,7 @@
     <color name="colorSandyBrown">#F4A460</color>
     <color name="colorPeachPuff">#FFDAB9</color>
     <color name="colorSlateGray">#708090</color>
+    <color name="colorBlur">#D1FFFFFF</color>
+    <color name="colorLock">#E6FFFFFF</color>
 
 </resources>

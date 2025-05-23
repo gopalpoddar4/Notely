@@ -8,6 +8,7 @@
     android:id="@+id/settingLayout"
     android:paddingHorizontal="25dp">
 
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -91,7 +92,7 @@
             android:id="@+id/NTOImg"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/row"
+            android:src="@drawable/sort_aesc"
             app:tint="@color/colorTextColor"/>
         <TextView
             android:id="@+id/NTOText"
@@ -114,7 +115,7 @@
             android:id="@+id/OTNImg"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/row"
+            android:src="@drawable/sort_desc"
             app:tint="@color/colorTextColor"/>
         <TextView
             android:id="@+id/OTNText"
@@ -159,5 +160,30 @@
             android:fontFamily="@font/ubuntu_bold"/>
 
     </LinearLayout>
+
+   <LinearLayout
+       android:id="@+id/moreSettings"
+       android:layout_width="wrap_content"
+       android:layout_height="25dp"
+       android:orientation="horizontal"
+       android:layout_gravity="center"
+       android:layout_marginBottom="10dp">
+
+       <TextView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_gravity="top"
+           android:fontFamily="@font/ubuntu_medium"
+           android:text="More"
+           android:textColor="@color/colorAccent"
+           android:textSize="14dp" />
+
+       <ImageView
+           android:layout_width="18dp"
+           android:layout_height="18dp"
+           android:layout_gravity="top"
+           android:src="@drawable/rightarrow"
+           app:tint="@color/colorAccent" />
+   </LinearLayout>
 
 </LinearLayout>

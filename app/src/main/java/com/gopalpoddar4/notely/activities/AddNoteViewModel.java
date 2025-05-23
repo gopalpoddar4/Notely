@@ -44,6 +44,9 @@ public class AddNoteViewModel extends AndroidViewModel {
     LiveData<List<NoteEntity>> searchNote(String query){
         return noteDao.searchNote("%" + query + "%");
     }
+    LiveData<List<NoteEntity>> categoryNote(String categoryQuery){
+        return noteDao.categoryNote(categoryQuery);
+    }
     public void update(NoteEntity noteEntity){
         new  UpdateAsyncTask(noteDao).execute(noteEntity);
     }

@@ -31,4 +31,7 @@ public interface NoteDao {
 
     @Query("SELECT * FROM note_table WHERE title LIKE :query OR note_description LIKE :query ORDER BY pinned DESC, id DESC")
     LiveData<List<NoteEntity>> searchNote(String query);
+
+    @Query("SELECT * FROM note_table WHERE category LIKE :categoryQuery OR allcategory LIKE :categoryQuery ORDER BY pinned DESC, id DESC")
+    LiveData<List<NoteEntity>> categoryNote(String categoryQuery);
 }
