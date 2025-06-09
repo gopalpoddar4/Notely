@@ -44,7 +44,7 @@ Notely is your personal digital notebook that helps you stay organized and produ
 
 ## 📥 Download
 
-🔗 [Click here to download the latest APK](https://github.com/gopalpoddar4/Notely/releases)
+🔗 [Click here to download the latest APK](https://gopalpoddar4.github.io/Notely-Website/)
 
 ---
 
