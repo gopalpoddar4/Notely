@@ -303,10 +303,10 @@ public class MainActivity extends AppCompatActivity {
                 Category = addCategoryET.getText().toString();
                 if (Category.isEmpty()){
                     alertDialog.dismiss();
-                    Toast.makeText(MainActivity.this, "Please enter category", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, R.string.soon, Toast.LENGTH_SHORT).show();
                 }else{
                     alertDialog.dismiss();
-                    Toast.makeText(MainActivity.this, "Category added "+Category, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, R.string.soon, Toast.LENGTH_SHORT).show();
                 }
             }
         });

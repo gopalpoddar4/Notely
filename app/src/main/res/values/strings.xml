@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Notely</string>
     <string name="notely">NOTELY</string>
+    <string name="soon">Feature Coming Soon</string>
 </resources>

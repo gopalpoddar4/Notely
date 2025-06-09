@@ -77,24 +77,40 @@ public class AddNoteActivity extends AppCompatActivity {
         SaveNoteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TextUtils.isEmpty(etNoteTitle.getText())){
-                    Toast.makeText(AddNoteActivity.this, "Title can't be empty", Toast.LENGTH_SHORT).show();
-                    return;
-                } else if (TextUtils.isEmpty(etNoteDescription.getText())) {
-                    Toast.makeText(AddNoteActivity.this, "Note can't be empty", Toast.LENGTH_SHORT).show();
-                    return;
-                }else {
-                    Intent intent = new Intent();
-                    intent.putExtra("titleadd",etNoteTitle.getText().toString());
-                    intent.putExtra("descadd",etNoteDescription.getText().toString());
-                    intent.putExtra("dateadd",dateTime.getText().toString());
-                    intent.putExtra("color",selectedColor);
-                    intent.putExtra("pin",pinned);
-                    setResult(RESULT_OK,intent);
-                    finish();
-                }
+               saveNote();
             }
         });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        saveNote();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        saveNote();
+    }
+
+    private void saveNote(){
+        if (TextUtils.isEmpty(etNoteTitle.getText())){
+            Toast.makeText(AddNoteActivity.this, "Title can't be empty", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (TextUtils.isEmpty(etNoteDescription.getText())) {
+            Toast.makeText(AddNoteActivity.this, "Note can't be empty", Toast.LENGTH_SHORT).show();
+            return;
+        }else {
+            Intent intent = new Intent();
+            intent.putExtra("titleadd",etNoteTitle.getText().toString());
+            intent.putExtra("descadd",etNoteDescription.getText().toString());
+            intent.putExtra("dateadd",dateTime.getText().toString());
+            intent.putExtra("color",selectedColor);
+            intent.putExtra("pin",pinned);
+            setResult(RESULT_OK,intent);
+            finish();
+        }
     }
     private void initMislinious(){
         final LinearLayout linearLayoutMis = findViewById(R.id.layout_mislinious);

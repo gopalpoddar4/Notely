@@ -34,7 +34,9 @@ public class EditNoteActivity extends AppCompatActivity {
     private EditNoteViewModel editNoteViewModel;
     private LiveData<NoteEntity> noteEntity;
     String editedColor;
+    int id;
     Boolean editpin = false;
+    String noteCategory,currentDateAndTime;
 
     CoordinatorLayout coordinatorLayout;
     NoteEntity entity;
@@ -56,27 +58,33 @@ public class EditNoteActivity extends AppCompatActivity {
         editPin=findViewById(R.id.editpin);
 
 
-        int id = getIntent().getIntExtra("note_id",0);
+        id = getIntent().getIntExtra("note_id",0);
 
         editNoteViewModel= new ViewModelProvider(this).get(EditNoteViewModel.class);
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE, dd MMMM yyyy, hh:mm a", Locale.getDefault());
-        String currentDateAndTime = simpleDateFormat.format(Calendar.getInstance().getTime());
+        currentDateAndTime = simpleDateFormat.format(Calendar.getInstance().getTime());
         dateTime1.setText(currentDateAndTime);
         noteEntity = editNoteViewModel.getNote(id);
+        Log.d("TAG", "Note id: "+id);
         noteEntity.observe(this, new Observer<NoteEntity>() {
             @Override
             public void onChanged(NoteEntity noteEntity) {
-                etTitle1.setText(noteEntity.getTitle());
-                etDescription1.setText(noteEntity.getNoteDescription());
-                dateTime1.setText(noteEntity.getDateTime());
-                if(noteEntity.getColour()!=null){
-                    editedColor = noteEntity.getColour();
-                }
-                if (noteEntity.isPinned()){
-                    editPin.setImageResource(R.drawable.notpin);
-                    editpin=true;
-                }
+                Log.d("TAG", "Note entity: "+noteEntity);
+
+                    etTitle1.setText(noteEntity.getTitle());
+                    etDescription1.setText(noteEntity.getNoteDescription());
+                    dateTime1.setText(noteEntity.getDateTime());
+                    noteCategory = noteEntity.getCategory();
+                    if(noteEntity.getColour()!=null){
+                        editedColor = noteEntity.getColour();
+                    }
+                    if (noteEntity.isPinned()){
+                        editPin.setImageResource(R.drawable.notpin);
+                        editpin=true;
+                    }
+
+
             }
         });
         editPin.setOnClickListener(new View.OnClickListener() {
@@ -100,29 +108,52 @@ public class EditNoteActivity extends AppCompatActivity {
             }
         });
         editMislinious();
+
+        //Save button
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TextUtils.isEmpty(etTitle1.getText())){
-                    Toast.makeText(EditNoteActivity.this, "Title can't be empty", Toast.LENGTH_SHORT).show();
-                    return;
-                } else if (TextUtils.isEmpty(etDescription1.getText())) {
-                    Toast.makeText(EditNoteActivity.this, "Note can't be empty", Toast.LENGTH_SHORT).show();
-                    return;
-                }else {
-                    NoteEntity note=new NoteEntity();
-                    note.setId(id);
-                    note.setTitle(etTitle1.getText().toString());
-                    note.setNoteDescription(etDescription1.getText().toString());
-                    note.setDateTime(currentDateAndTime);
-                    note.setColour(editedColor);
-                    note.setPinned(editpin);
-                    editNoteViewModel.update(note);
-
-                    finish();
-                }
+                saveNote();
             }
         });
+
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        saveNote(); // User manually back kare to bhi save
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        saveNote();
+    }
+
+    //Save note function
+    private void saveNote(){
+        if (TextUtils.isEmpty(etTitle1.getText())){
+            Toast.makeText(EditNoteActivity.this, "Title can't be empty", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (TextUtils.isEmpty(etDescription1.getText())) {
+            Toast.makeText(EditNoteActivity.this, "Note can't be empty", Toast.LENGTH_SHORT).show();
+            return;
+        }else {
+            NoteEntity note=new NoteEntity();
+            note.setId(id);
+            note.setTitle(etTitle1.getText().toString());
+            note.setNoteDescription(etDescription1.getText().toString());
+            note.setDateTime(currentDateAndTime);
+            note.setColour(editedColor);
+            note.setPinned(editpin);
+            note.setAllCategory("All");
+            note.setCategory(noteCategory);
+            editNoteViewModel.update(note);
+
+            finish();
+        }
     }
 
     private int getDynamiccolor(String color, EditNoteActivity editNoteActivity) {

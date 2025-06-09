@@ -3,6 +3,7 @@ package com.gopalpoddar4.notely.activities;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -20,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -71,6 +71,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.myVH> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, EditNoteActivity.class);
+                intent.putExtra("note_id",notes.get(position).getId());
                 ((Activity)context).startActivityForResult(intent,REQUEST_CODE_UPDATE_NOTE);
 
             }
@@ -85,6 +86,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.myVH> {
         }
     }
 
+    //Option window
     public void showDaiolog(NoteEntity note,View v,List<CategoryModel> categoryList){
         LinearLayout linearLayout1 =  v.findViewById(R.id.pin_delete_layout);
         View view = LayoutInflater.from(context).inflate(R.layout.pin_delete_lock_layout,null);
@@ -96,6 +98,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.myVH> {
         ImageView img_pin = view.findViewById(R.id.pin_img);
         TextView txt_pin = view.findViewById(R.id.pin_txt);
         TextView lock_txt = view.findViewById(R.id.lock_txt);
+
         if (note.isPinned()){
             img_pin.setImageResource(R.drawable.notpin);
             txt_pin.setText("Unpin Note");
@@ -126,8 +129,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.myVH> {
         lockLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                View view3 = LayoutInflater.from(context).inflate(R.layout.lock_dialog,null);
+                Toast.makeText(context, R.string.soon, Toast.LENGTH_SHORT).show();
+              /*  View view3 = LayoutInflater.from(context).inflate(R.layout.lock_dialog,null);
                 AlertDialog.Builder builder3 = new AlertDialog.Builder(context, com.google.android.material.R.style.ThemeOverlay_Material3_Dialog);
                 builder3.setView(view3);
                 AlertDialog alertDialog3=builder3.create();
@@ -142,11 +145,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.myVH> {
                 alertDialog3.show();
 
                 alertDialog3.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-
+ */
                 alertDialog.dismiss();
 
             }
         });
+
+        //Here we perform select category operation
         categorylayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
