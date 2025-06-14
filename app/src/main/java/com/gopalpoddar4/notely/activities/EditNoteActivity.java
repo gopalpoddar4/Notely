@@ -3,6 +3,8 @@ package com.gopalpoddar4.notely.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -57,6 +59,8 @@ public class EditNoteActivity extends AppCompatActivity {
         dateTime1=findViewById(R.id.editDateTime);
         editPin=findViewById(R.id.editpin);
 
+        Linkify.addLinks(etDescription1,Linkify.WEB_URLS);
+        etDescription1.setMovementMethod(LinkMovementMethod.getInstance());
 
         id = getIntent().getIntExtra("note_id",0);
 
@@ -67,6 +71,7 @@ public class EditNoteActivity extends AppCompatActivity {
         dateTime1.setText(currentDateAndTime);
         noteEntity = editNoteViewModel.getNote(id);
         Log.d("TAG", "Note id: "+id);
+
         noteEntity.observe(this, new Observer<NoteEntity>() {
             @Override
             public void onChanged(NoteEntity noteEntity) {
@@ -87,6 +92,7 @@ public class EditNoteActivity extends AppCompatActivity {
 
             }
         });
+
         editPin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,12 +107,14 @@ public class EditNoteActivity extends AppCompatActivity {
 
             }
         });
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+
         editMislinious();
 
         //Save button
@@ -114,6 +122,7 @@ public class EditNoteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 saveNote();
+                finish();
             }
         });
 
@@ -123,6 +132,7 @@ public class EditNoteActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         saveNote(); // User manually back kare to bhi save
+        finish();
         super.onBackPressed();
     }
 
@@ -151,8 +161,6 @@ public class EditNoteActivity extends AppCompatActivity {
             note.setAllCategory("All");
             note.setCategory(noteCategory);
             editNoteViewModel.update(note);
-
-            finish();
         }
     }
 

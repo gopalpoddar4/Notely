@@ -3,6 +3,8 @@ package com.gopalpoddar4.notely.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -47,6 +49,10 @@ public class AddNoteActivity extends AppCompatActivity {
         etNoteDescription=findViewById(R.id.inputNoteDescription);
         dateTime=findViewById(R.id.textDateTime);
         addPin=findViewById(R.id.addpin);
+
+        Linkify.addLinks(etNoteDescription,Linkify.WEB_URLS);
+        etNoteDescription.setMovementMethod(LinkMovementMethod.getInstance());
+
         addPin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
