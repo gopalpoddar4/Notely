@@ -23,10 +23,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.gopalpoddar4.notely.R;
+import com.gopalpoddar4.notely.activities.CategoryFiles.CategoryModel;
 import com.gopalpoddar4.notely.activities.DatabaseFiles.NoteEntity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 public class EditNoteActivity extends AppCompatActivity {
@@ -72,6 +74,8 @@ public class EditNoteActivity extends AppCompatActivity {
         noteEntity = editNoteViewModel.getNote(id);
         Log.d("TAG", "Note id: "+id);
 
+
+
         noteEntity.observe(this, new Observer<NoteEntity>() {
             @Override
             public void onChanged(NoteEntity noteEntity) {
@@ -81,6 +85,7 @@ public class EditNoteActivity extends AppCompatActivity {
                     etDescription1.setText(noteEntity.getNoteDescription());
                     dateTime1.setText(noteEntity.getDateTime());
                     noteCategory = noteEntity.getCategory();
+
                     if(noteEntity.getColour()!=null){
                         editedColor = noteEntity.getColour();
                     }

@@ -1,6 +1,7 @@
 package com.gopalpoddar4.notely.activities.CategoryFiles;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,8 +47,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.vh> {
     @Override
     public void onBindViewHolder(@NonNull vh holder, int position) {
         CategoryModel model = categoryList.get(position);
+
         int id = model.getId();
+
         holder.categoryname.setText(categoryList.get(position).getCategoryName());
+
         holder.category.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,6 +69,20 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.vh> {
         }else{
             holder.category.setBackgroundResource(R.drawable.bg_category);
         }
+
+        holder.category.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (categoryList.get(position).getId()==1){
+                    Toast.makeText(context, "Default can't be deleted", Toast.LENGTH_SHORT).show();
+                }else {
+                    addNoteViewModel.deleteCategory(model);
+                }
+
+                Log.d("id","ID :"+id);
+                return true;
+            }
+        });
     }
 
     @Override

@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
     List<CategoryModel> categoryList;
     EditText addCategoryET;
     Button addCategoryBtn;
-    String Category;
     int getNum;
     SearchView searchNoteET;
     private AddNoteViewModel addNoteViewModel;
@@ -48,29 +47,30 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout gridLayout,linearLayout,newToOld,oldToNew;
     ImageView gridImage,linearImage,NTOImage,OTNImage;
     TextView gridText,linearText,NTOText,OTNText,cancelSetting,doneSetting;
+    SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
         );
 
-        categoryList=new ArrayList<>();
-        categoryList.add(new CategoryModel("All"));
-        categoryList.add(new CategoryModel("Shayri"));
-        categoryList.add(new CategoryModel("College Task"));
-        categoryList.add(new CategoryModel("Contect"));
-        categoryList.add(new CategoryModel("Youtube"));
-        categoryList.add(new CategoryModel("Instagram"));
-        categoryList.add(new CategoryModel("Coding"));
-
-
+        sharedPreferences = getSharedPreferences("shared_prefs",MODE_PRIVATE);
 
         addNoteViewModel=new ViewModelProvider(this).get(AddNoteViewModel.class);
+
+        Boolean firstTime = sharedPreferences.getBoolean("firstTime",true);
+
+        if (firstTime){
+            CategoryModel categoryModel = new CategoryModel();
+
+            categoryModel.setCategoryName("All");
+            addNoteViewModel.insertCategory(categoryModel);
+            sharedPreferences.edit().putBoolean("firstTime",false).apply();
+        }
 
         //finding views of id
         AddNoteBtn=findViewById(R.id.addNoteButton);
@@ -88,37 +88,44 @@ public class MainActivity extends AppCompatActivity {
         });
 
         rcvCategory.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
-        CategoryAdapter categoryAdapter = new CategoryAdapter(categoryList, this, addNoteViewModel, new CategoryInterface() {
+        addNoteViewModel.getAllCategory().observe(MainActivity.this, new Observer<List<CategoryModel>>() {
             @Override
-            public void onItemClick(String categoryName) {
-                addNoteViewModel.categoryNote(categoryName).observe(MainActivity.this, new Observer<List<NoteEntity>>() {
+            public void onChanged(List<CategoryModel> categoryModels) {
+                CategoryAdapter categoryAdapter = new CategoryAdapter(categoryModels, MainActivity.this, addNoteViewModel, new CategoryInterface() {
                     @Override
-                    public void onChanged(List<NoteEntity> noteEntities) {
-                        addNoteViewModel.getValue().observe(MainActivity.this, new Observer<Integer>() {
+                    public void onItemClick(String categoryName) {
+                        addNoteViewModel.categoryNote(categoryName).observe(MainActivity.this, new Observer<List<NoteEntity>>() {
                             @Override
-                            public void onChanged(Integer integer) {
-                                addNoteViewModel.categoryNote(categoryName).observe(MainActivity.this, new Observer<List<NoteEntity>>() {
+                            public void onChanged(List<NoteEntity> noteEntities) {
+                                addNoteViewModel.getValue().observe(MainActivity.this, new Observer<Integer>() {
                                     @Override
-                                    public void onChanged(List<NoteEntity> noteEntities) {
-                                        noteAdapter= new NoteAdapter(noteEntities,MainActivity.this,addNoteViewModel,categoryList);
-                                        recyclerView.setHasFixedSize(true);
-                                        recyclerView.setAdapter(null);
-                                        recyclerView.setLayoutManager(null);
-                                        if (integer==0){
-                                            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
-                                        }else {
-                                            recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                                        }
-                                        recyclerView.setAdapter(noteAdapter);
+                                    public void onChanged(Integer integer) {
+                                        addNoteViewModel.categoryNote(categoryName).observe(MainActivity.this, new Observer<List<NoteEntity>>() {
+                                            @Override
+                                            public void onChanged(List<NoteEntity> noteEntities) {
+                                                noteAdapter= new NoteAdapter(noteEntities,MainActivity.this,addNoteViewModel,categoryModels);
+                                                recyclerView.setHasFixedSize(true);
+                                                recyclerView.setAdapter(null);
+                                                recyclerView.setLayoutManager(null);
+                                                if (integer==0){
+                                                    recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+                                                }else {
+                                                    recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                                                }
+                                                recyclerView.setAdapter(noteAdapter);
+                                            }
+                                        });
                                     }
                                 });
                             }
                         });
                     }
                 });
+                rcvCategory.setAdapter(categoryAdapter);
             }
         });
-        rcvCategory.setAdapter(categoryAdapter);
+
+
         searchNoteET.setQueryHint("Search Notes");
 
         //Setting button function
@@ -140,21 +147,27 @@ public class MainActivity extends AppCompatActivity {
         addNoteViewModel.getValue().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
-                addNoteViewModel.getAllNotes().observe(MainActivity.this, new Observer<List<NoteEntity>>() {
+                addNoteViewModel.getAllCategory().observe(MainActivity.this, new Observer<List<CategoryModel>>() {
                     @Override
-                    public void onChanged(List<NoteEntity> noteEntities) {
-                        noteAdapter= new NoteAdapter(noteEntities,MainActivity.this,addNoteViewModel,categoryList);
-                        recyclerView.setHasFixedSize(true);
-                        recyclerView.setAdapter(null);
-                        recyclerView.setLayoutManager(null);
-                        if (integer==0){
-                            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
-                        }else {
-                            recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                        }
-                        recyclerView.setAdapter(noteAdapter);
+                    public void onChanged(List<CategoryModel> categoryModels) {
+                        addNoteViewModel.getAllNotes().observe(MainActivity.this, new Observer<List<NoteEntity>>() {
+                            @Override
+                            public void onChanged(List<NoteEntity> noteEntities) {
+                                noteAdapter= new NoteAdapter(noteEntities,MainActivity.this,addNoteViewModel,categoryModels);
+                                recyclerView.setHasFixedSize(true);
+                                recyclerView.setAdapter(null);
+                                recyclerView.setLayoutManager(null);
+                                if (integer==0){
+                                    recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+                                }else {
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                                }
+                                recyclerView.setAdapter(noteAdapter);
+                            }
+                        });
                     }
                 });
+
             }
         });
 
@@ -167,28 +180,34 @@ public class MainActivity extends AppCompatActivity {
 
              @Override
              public boolean onQueryTextChange(String query) {
-                 addNoteViewModel.searchNote(query).observe(MainActivity.this, new Observer<List<NoteEntity>>() {
+                 addNoteViewModel.getAllCategory().observe(MainActivity.this, new Observer<List<CategoryModel>>() {
                      @Override
-                     public void onChanged(List<NoteEntity> noteEntities) {
-                         noteAdapter= new NoteAdapter(noteEntities,MainActivity.this,addNoteViewModel,categoryList);
-                         recyclerView.setHasFixedSize(true);
-                         recyclerView.setAdapter(null);
-                         recyclerView.setLayoutManager(null);
-
-                         addNoteViewModel.getValue().observe(MainActivity.this, new Observer<Integer>() {
+                     public void onChanged(List<CategoryModel> categoryModels) {
+                         addNoteViewModel.searchNote(query).observe(MainActivity.this, new Observer<List<NoteEntity>>() {
                              @Override
-                             public void onChanged(Integer integer) {
-                                 if (integer==0){
-                                     recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
-                                 }else {
-                                     recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                                 }
+                             public void onChanged(List<NoteEntity> noteEntities) {
+                                 noteAdapter= new NoteAdapter(noteEntities,MainActivity.this,addNoteViewModel,categoryModels);
+                                 recyclerView.setHasFixedSize(true);
+                                 recyclerView.setAdapter(null);
+                                 recyclerView.setLayoutManager(null);
+
+                                 addNoteViewModel.getValue().observe(MainActivity.this, new Observer<Integer>() {
+                                     @Override
+                                     public void onChanged(Integer integer) {
+                                         if (integer==0){
+                                             recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+                                         }else {
+                                             recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                                         }
+                                     }
+                                 });
+
+                                 recyclerView.setAdapter(noteAdapter);
                              }
                          });
-
-                         recyclerView.setAdapter(noteAdapter);
                      }
                  });
+
                  return true;
              }
          });
@@ -300,13 +319,15 @@ public class MainActivity extends AppCompatActivity {
         addCategoryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Category = addCategoryET.getText().toString();
+                String Category = addCategoryET.getText().toString();
                 if (Category.isEmpty()){
                     alertDialog.dismiss();
-                    Toast.makeText(MainActivity.this, R.string.soon, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this,"PLease enter category name", Toast.LENGTH_SHORT).show();
                 }else{
                     alertDialog.dismiss();
-                    Toast.makeText(MainActivity.this, R.string.soon, Toast.LENGTH_SHORT).show();
+                    CategoryModel categoryModel = new CategoryModel();
+                    categoryModel.setCategoryName(Category);
+                    addNoteViewModel.insertCategory(categoryModel);
                 }
             }
         });

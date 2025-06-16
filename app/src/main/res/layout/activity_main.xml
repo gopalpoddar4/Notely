@@ -95,20 +95,8 @@
             android:layout_marginStart="8dp"
             app:tint="@color/colorIcons"
             android:src="@drawable/category_24"/>
-        <ImageView
-            android:id="@+id/imageAddImage"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="15dp"
-            app:tint="@color/colorIcons"
-            android:src="@drawable/image_icon"/>
-        <ImageView
-            android:id="@+id/imageAddLink"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            app:tint="@color/colorIcons"
-            android:layout_marginStart="15dp"
-            android:src="@drawable/link"/>
+       
+
     </LinearLayout>
 
     <ImageView

@@ -7,6 +7,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.gopalpoddar4.notely.activities.CategoryFiles.CategoryDao;
+import com.gopalpoddar4.notely.activities.CategoryFiles.CategoryModel;
 import com.gopalpoddar4.notely.activities.DatabaseFiles.NoteDao;
 import com.gopalpoddar4.notely.activities.DatabaseFiles.NoteDatabase;
 import com.gopalpoddar4.notely.activities.DatabaseFiles.NoteEntity;
@@ -15,14 +17,19 @@ import java.util.List;
 
 public class AddNoteViewModel extends AndroidViewModel {
     private NoteDao noteDao;
+    private CategoryDao categoryDao;
     private NoteDatabase noteDatabase;
     LiveData<List<NoteEntity>> allNotes;
+    LiveData<List<CategoryModel>> allCategory;
 
     public AddNoteViewModel(@NonNull Application application) {
         super(application);
         noteDatabase=NoteDatabase.noteDatabase(application);
         noteDao=noteDatabase.noteDao();
         allNotes=noteDao.getallnotes();
+
+        categoryDao=noteDatabase.categoryDao();
+        allCategory=categoryDao.showCategory();
     }
 
     private MutableLiveData<Integer> value = new MutableLiveData<>();
@@ -35,11 +42,37 @@ public class AddNoteViewModel extends AndroidViewModel {
     public void insert(NoteEntity noteEntity){
         new InsertAsyncTask(noteDao).execute(noteEntity);
     }
+
+    public void insertCategory(CategoryModel categoryModel){
+        new InsertCategory(categoryDao).execute(categoryModel);
+    }
     public void delete(NoteEntity noteEntity){
         new DeleteAsuncTask(noteDao).execute(noteEntity);
     }
+
+    public void deleteCategory(CategoryModel categoryModel){
+        new DeleteCategoryAsuncTask(categoryDao).execute(categoryModel);
+    }
+
+    private class DeleteCategoryAsuncTask extends AsyncTask<CategoryModel,Void,Void>{
+        CategoryDao categoryDao;
+        public DeleteCategoryAsuncTask(CategoryDao categoryDao) {
+            this.categoryDao = categoryDao;
+        }
+
+        @Override
+        protected Void doInBackground(CategoryModel... categoryModels) {
+            categoryDao.deleteCategory(categoryModels[0]);
+            return null;
+        }
+    }
+
+
     LiveData<List<NoteEntity>> getAllNotes(){
         return allNotes;
+    }
+    LiveData<List<CategoryModel>> getAllCategory(){
+        return allCategory;
     }
     LiveData<List<NoteEntity>> searchNote(String query){
         return noteDao.searchNote("%" + query + "%");
@@ -81,6 +114,19 @@ public class AddNoteViewModel extends AndroidViewModel {
         @Override
         protected Void doInBackground(NoteEntity... noteEntities) {
             noteDao.insertNote(noteEntities[0]);
+            return null;
+        }
+    }
+
+    private class InsertCategory extends AsyncTask<CategoryModel,Void,Void>{
+        CategoryDao categoryDao;
+        public InsertCategory(CategoryDao categoryDao){
+            this.categoryDao = categoryDao;
+        }
+
+        @Override
+        protected Void doInBackground(CategoryModel... categoryModels) {
+            categoryDao.addCategory(categoryModels[0]);
             return null;
         }
     }

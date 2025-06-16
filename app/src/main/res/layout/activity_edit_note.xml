@@ -91,7 +91,7 @@
                 android:id="@+id/editNoteDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:autoLink="web"
+                android:autoLink="all"
                 android:textColorLink="@color/colorAccent"
                 android:linksClickable="true"
                 android:background="@null"

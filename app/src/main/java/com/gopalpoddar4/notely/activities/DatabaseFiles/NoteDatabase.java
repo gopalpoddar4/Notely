@@ -8,12 +8,16 @@ import androidx.room.RoomDatabase;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = NoteEntity.class, version = 4 )
+import com.gopalpoddar4.notely.activities.CategoryFiles.CategoryDao;
+import com.gopalpoddar4.notely.activities.CategoryFiles.CategoryModel;
+
+@Database(entities = {NoteEntity.class, CategoryModel.class}, version = 5 )
 public abstract class NoteDatabase extends RoomDatabase {
 
     private static NoteDatabase instance;
 
     public abstract NoteDao noteDao();
+    public abstract CategoryDao categoryDao();
 
     // 🔹 v1 → v2: Add `pinned` column
     static final Migration MIGRATION_1_2 = new Migration(1, 2) {
@@ -38,12 +42,21 @@ public abstract class NoteDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_4_5 = new Migration(4,5) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE IF NOT EXISTS `category_table` " +
+                    "(`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    "`category_name` TEXT)");
+        }
+    };
+
 
 
     public static synchronized NoteDatabase noteDatabase(Context context) {
         if (instance == null) {
             instance = Room.databaseBuilder(context, NoteDatabase.class, "notedb")
-                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3,MIGRATION_3_4   )
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3,MIGRATION_3_4 ,MIGRATION_4_5  )
                     // 🔁 all sequential migrations
                     // ⚠️ fallbackToDestructiveMigration hata do agar data important hai
                     .build();
