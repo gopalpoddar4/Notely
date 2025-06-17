@@ -65,15 +65,30 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.myVH> {
         }else{
             holder.pin.setVisibility(GONE);
         }
-
-        holder.linearLayout.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.rcvDescription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, EditNoteActivity.class);
+                intent.putExtra("note_id",notes.get(position).getId());
+                ((Activity)context).startActivityForResult(intent,REQUEST_CODE_UPDATE_NOTE);
+            }
+        });
+        holder.rcvDescription.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 showDaiolog(notes.get(position),v,categoryList);
                 return true;
             }
         });
-        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showDaiolog(notes.get(position),v,categoryList);
+                return true;
+            }
+        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, EditNoteActivity.class);
@@ -271,7 +286,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.myVH> {
             rcvTime=itemView.findViewById(R.id.rcvTime);
             ll=itemView.findViewById(R.id.rcvLinear);
             pin=itemView.findViewById(R.id.rcvIsPinned);
-            lockOverlay=itemView.findViewById(R.id.lockOverlay);
         }
 
     }
