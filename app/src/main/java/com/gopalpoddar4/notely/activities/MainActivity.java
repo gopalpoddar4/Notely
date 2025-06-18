@@ -1,5 +1,8 @@
 package com.gopalpoddar4.notely.activities;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -34,7 +37,7 @@ import java.util.Arrays;
 import java.util.List;
 public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_ADD_NOTE=1;
-    ImageView AddNoteBtn,setting,addNewCategory;
+    ImageView AddNoteBtn,setting,addNewCategory,emptyNoteImg;
     int noteFormatValue = 0;
     List<CategoryModel> categoryList;
     EditText addCategoryET;
@@ -46,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     NoteAdapter noteAdapter;
     LinearLayout gridLayout,linearLayout,newToOld,oldToNew;
     ImageView gridImage,linearImage,NTOImage,OTNImage;
-    TextView gridText,linearText,NTOText,OTNText,cancelSetting,doneSetting;
+    TextView gridText,linearText,NTOText,OTNText,cancelSetting,doneSetting,addNoteTxt;
     SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +57,7 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-        );
+
 
         sharedPreferences = getSharedPreferences("shared_prefs",MODE_PRIVATE);
 
@@ -79,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
         setting=findViewById(R.id.setting);
         rcvCategory=findViewById(R.id.categoryRcv);
         addNewCategory=findViewById(R.id.addNewCategory);
+        emptyNoteImg=findViewById(R.id.emptyNoteImg);
+        addNoteTxt=findViewById(R.id.addNewNoteTxt);
 
         addNewCategory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,26 +100,55 @@ public class MainActivity extends AppCompatActivity {
                         addNoteViewModel.categoryNote(categoryName).observe(MainActivity.this, new Observer<List<NoteEntity>>() {
                             @Override
                             public void onChanged(List<NoteEntity> noteEntities) {
-                                addNoteViewModel.getValue().observe(MainActivity.this, new Observer<Integer>() {
-                                    @Override
-                                    public void onChanged(Integer integer) {
-                                        addNoteViewModel.categoryNote(categoryName).observe(MainActivity.this, new Observer<List<NoteEntity>>() {
-                                            @Override
-                                            public void onChanged(List<NoteEntity> noteEntities) {
-                                                noteAdapter= new NoteAdapter(noteEntities,MainActivity.this,addNoteViewModel,categoryModels);
-                                                recyclerView.setHasFixedSize(true);
-                                                recyclerView.setAdapter(null);
-                                                recyclerView.setLayoutManager(null);
-                                                if (integer==0){
-                                                    recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
-                                                }else {
-                                                    recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                                if (noteEntities.isEmpty()){
+                                    emptyNoteImg.setVisibility(VISIBLE);
+                                    addNoteTxt.setVisibility(VISIBLE);
+                                    addNoteViewModel.getValue().observe(MainActivity.this, new Observer<Integer>() {
+                                        @Override
+                                        public void onChanged(Integer integer) {
+                                            addNoteViewModel.categoryNote(categoryName).observe(MainActivity.this, new Observer<List<NoteEntity>>() {
+                                                @Override
+                                                public void onChanged(List<NoteEntity> noteEntities) {
+                                                    noteAdapter= new NoteAdapter(noteEntities,MainActivity.this,addNoteViewModel,categoryModels);
+                                                    recyclerView.setHasFixedSize(true);
+                                                    recyclerView.setAdapter(null);
+                                                    recyclerView.setLayoutManager(null);
+                                                    if (integer==0){
+                                                        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+                                                    }else {
+                                                        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                                                    }
+                                                    recyclerView.setAdapter(noteAdapter);
                                                 }
-                                                recyclerView.setAdapter(noteAdapter);
-                                            }
-                                        });
-                                    }
-                                });
+                                            });
+                                        }
+                                    });
+                                }else {
+                                    emptyNoteImg.setVisibility(GONE);
+                                    addNoteTxt.setVisibility(GONE);
+
+                                    addNoteViewModel.getValue().observe(MainActivity.this, new Observer<Integer>() {
+                                        @Override
+                                        public void onChanged(Integer integer) {
+                                            addNoteViewModel.categoryNote(categoryName).observe(MainActivity.this, new Observer<List<NoteEntity>>() {
+                                                @Override
+                                                public void onChanged(List<NoteEntity> noteEntities) {
+                                                    noteAdapter= new NoteAdapter(noteEntities,MainActivity.this,addNoteViewModel,categoryModels);
+                                                    recyclerView.setHasFixedSize(true);
+                                                    recyclerView.setAdapter(null);
+                                                    recyclerView.setLayoutManager(null);
+                                                    if (integer==0){
+                                                        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+                                                    }else {
+                                                        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                                                    }
+                                                    recyclerView.setAdapter(noteAdapter);
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+
                             }
                         });
                     }
@@ -153,16 +185,33 @@ public class MainActivity extends AppCompatActivity {
                         addNoteViewModel.getAllNotes().observe(MainActivity.this, new Observer<List<NoteEntity>>() {
                             @Override
                             public void onChanged(List<NoteEntity> noteEntities) {
-                                noteAdapter= new NoteAdapter(noteEntities,MainActivity.this,addNoteViewModel,categoryModels);
-                                recyclerView.setHasFixedSize(true);
-                                recyclerView.setAdapter(null);
-                                recyclerView.setLayoutManager(null);
-                                if (integer==0){
-                                    recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+                                if (noteEntities.isEmpty()){
+                                    emptyNoteImg.setVisibility(VISIBLE);
+                                    addNoteTxt.setVisibility(VISIBLE);
+                                    noteAdapter= new NoteAdapter(noteEntities,MainActivity.this,addNoteViewModel,categoryModels);
+                                    recyclerView.setHasFixedSize(true);
+                                    recyclerView.setAdapter(null);
+                                    recyclerView.setLayoutManager(null);
+                                    if (integer==0){
+                                        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+                                    }else {
+                                        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                                    }
+                                    recyclerView.setAdapter(noteAdapter);
                                 }else {
-                                    recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                                    emptyNoteImg.setVisibility(GONE);
+                                    addNoteTxt.setVisibility(GONE);
+                                    noteAdapter= new NoteAdapter(noteEntities,MainActivity.this,addNoteViewModel,categoryModels);
+                                    recyclerView.setHasFixedSize(true);
+                                    recyclerView.setAdapter(null);
+                                    recyclerView.setLayoutManager(null);
+                                    if (integer==0){
+                                        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+                                    }else {
+                                        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                                    }
+                                    recyclerView.setAdapter(noteAdapter);
                                 }
-                                recyclerView.setAdapter(noteAdapter);
                             }
                         });
                     }

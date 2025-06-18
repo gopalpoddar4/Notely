@@ -76,6 +76,32 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <ImageView
+        android:id="@+id/emptyNoteImg"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginBottom="50dp"
+        android:src="@drawable/stickynote"
+        app:layout_constraintBottom_toBottomOf="@+id/recycleView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:tint="@color/colorIcons" />
+
+    <TextView
+        android:id="@+id/addNewNoteTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add new note"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/colorIcons"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/emptyNoteImg"
+        app:layout_constraintStart_toStartOf="@+id/emptyNoteImg"
+        app:layout_constraintTop_toBottomOf="@+id/emptyNoteImg" />
+
     <LinearLayout
         android:id="@+id/layoutQuickAction"
         android:layout_width="match_parent"
@@ -92,9 +118,9 @@
             android:id="@+id/addNewCategory"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="10dp"
             app:tint="@color/colorIcons"
-            android:src="@drawable/category_24"/>
+            android:src="@drawable/add"/>
        
 
     </LinearLayout>
