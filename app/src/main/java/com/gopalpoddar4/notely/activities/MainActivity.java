@@ -3,11 +3,12 @@ package com.gopalpoddar4.notely.activities;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -17,24 +18,27 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
 import com.gopalpoddar4.notely.R;
 import com.gopalpoddar4.notely.activities.CategoryFiles.CategoryAdapter;
 import com.gopalpoddar4.notely.activities.CategoryFiles.CategoryInterface;
 import com.gopalpoddar4.notely.activities.CategoryFiles.CategoryModel;
 import com.gopalpoddar4.notely.activities.DatabaseFiles.NoteEntity;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_ADD_NOTE=1;
     ImageView AddNoteBtn,setting,addNewCategory,emptyNoteImg;
@@ -57,6 +61,11 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        );
+
+        requestNotificationPermission();
 
 
         sharedPreferences = getSharedPreferences("shared_prefs",MODE_PRIVATE);
@@ -407,5 +416,28 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+
+    private void requestNotificationPermission(){
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.TIRAMISU){
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)!= PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.POST_NOTIFICATIONS},100);
+            }
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode==100){
+            if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(this, "Thank you", Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(this, "Allow notification for updates", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
